@@ -104,7 +104,7 @@ export default function Hero() {
           <div className="space-y-4">
             <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight">
               <span className="block text-white animate-slide-up opacity-0 [animation-delay:200ms] [animation-fill-mode:forwards]">
-                Hi, I'm
+                Hi, I am
               </span>
               <span className="block bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent animate-slide-up opacity-0 [animation-delay:400ms] [animation-fill-mode:forwards]">
                 Nikhil Rana
