@@ -5,8 +5,8 @@ import { useRef } from "react";
 import { CountUp, ScaleOnScroll } from "./ScrollAnimations";
 
 const stats = [
-  { value: 3, suffix: "+", label: "Years Experience", icon: "📅" },
-  { value: 50, suffix: "+", label: "Projects Completed", icon: "🚀" },
+  { value: 1, suffix: "+", label: "Years Experience", icon: "📅" },
+  { value: 12, suffix: "+", label: "Projects Completed", icon: "🚀" },
   { value: 30, suffix: "+", label: "Happy Clients", icon: "😄" },
   { value: 99, suffix: "%", label: "Client Satisfaction", icon: "⭐" },
 ];

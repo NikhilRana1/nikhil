@@ -26,9 +26,11 @@ function ContactInfoItem({ icon: Icon, title, children, index }) {
     >
       <motion.div
         whileHover={{ scale: 1.1, rotate: 10 }}
-        className="p-3 bg-blue-100 dark:bg-blue-900 rounded-full transition-colors group-hover:bg-indigo-100 dark:group-hover:bg-indigo-900"
+        className="p-3 bg-blue-100 dark:bg-blue-900 rounded-full transition-colors
+         group-hover:bg-indigo-100 dark:group-hover:bg-indigo-900"
       >
-        <Icon className="text-blue-600 dark:text-blue-400 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors" size={20} />
+        <Icon className="text-blue-600 dark:text-blue-400 group-hover:text-indigo-600
+         dark:group-hover:text-indigo-400 transition-colors" size={20} />
       </motion.div>
       <div>
         <h3 className="font-medium">{title}</h3>
@@ -141,7 +143,8 @@ export default function Contact() {
               <MagneticButton
                 type="submit"
                 strength={0.2}
-                className="w-full py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 font-medium relative overflow-hidden group"
+                className="w-full py-3 bg-gradient-to-r from-indigo-600 to-purple-600
+                 text-white rounded-lg hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 font-medium relative overflow-hidden group"
               >
                 <span className="relative z-10">Send Message</span>
                 {/* Shine effect */}
