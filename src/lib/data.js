@@ -24,14 +24,14 @@ export const skills = [
 
 export const projects = [
   {
-    slug: "project-one",
-    title: "Project One",
-    description: "A brief description of project one and what it does.",
-    longDescription: "A detailed description of the project, technologies used, challenges faced, and solutions implemented.",
+    slug: "advance-task-manager-app",
+    title: "Advance Task Manager App",
+    description: "Smart task management app with priorities, deadlines, and progress tracking.",
+    longDescription: "Developed an advanced task manager application to organize, prioritize, and track daily tasks efficiently, while overcoming challenges related to state management,authentication, API integration, responsive design, and deployment configuration.",
     image: "/images/project1.png",
     technologies: ["React", "Next.js", "Tailwind CSS"],
-    liveUrl: "https://project-one.com",
-    githubUrl: "https://github.com/yourusername/project-one",
+    liveUrl: "https://advance-task-manager-app-iota.vercel.app",
+    githubUrl: "https://github.com/NikhilRana1",
     featured: true,
   },
   {
@@ -42,7 +42,7 @@ export const projects = [
     image: "/images/project2.png",
     technologies: ["Node.js", "Express", "MongoDB"],
     liveUrl: "https://project-two.com",
-    githubUrl: "https://github.com/yourusername/project-two",
+    githubUrl: "https://github.com/NikhilRana1",
     featured: true,
   },
   {
@@ -53,7 +53,7 @@ export const projects = [
     image: "/images/project3.png",
     technologies: ["React", "Firebase", "Tailwind CSS"],
     liveUrl: "https://project-three.com",
-    githubUrl: "https://github.com/yourusername/project-three",
+    githubUrl: "https://github.com/NikhilRana1",
     featured: false,
   },
 ];
