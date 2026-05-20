@@ -31,18 +31,18 @@ export default function About() {
             className="space-y-6"
           >
             <TextReveal
-              text={`Hello! I'm ${personalInfo.name}, a passionate developer based in ${personalInfo.location}. I enjoy creating things that live on the internet, whether that be websites, applications, or anything in between.`}
+              text={`Hello! I'm ${personalInfo.name}, a passionate Frontend Developer focused on building modern, responsive, and user-friendly web experiences. I enjoy turning ideas into real-world digital products using technologies like HTML, CSS, JavaScript, React, and Next.js.`}
               className="text-gray-600 dark:text-gray-400 leading-relaxed"
               staggerDelay={0.03}
             />
             <TextReveal
-              text="My goal is to always build products that provide pixel-perfect, performant experiences. I'm constantly learning and exploring new technologies to stay up-to-date with the latest industry trends."
+              text="I love creating clean UI designs, smooth user experiences, and performant applications that not only look good but also solve real problems. As a developer, I'm constantly learning new technologies and improving my skills to stay updated with the latest trends in web development."
               className="text-gray-600 dark:text-gray-400 leading-relaxed"
               delay={0.3}
               staggerDelay={0.03}
             />
             <TextReveal
-              text="When I'm not coding, you can find me exploring new technologies, contributing to open source, or enjoying a good cup of coffee."
+              text="Currently, I'm working on personal and client projects, exploring full-stack development, and sharpening my problem-solving abilities. My goal is to build impactful digital experiences that combine creativity with functionality. When I'm not coding, you'll usually find me exploring new tech, experimenting with AI tools, or enjoying a good cup of coffee."
               className="text-gray-600 dark:text-gray-400 leading-relaxed"
               delay={0.6}
               staggerDelay={0.03}

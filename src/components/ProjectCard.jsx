@@ -40,15 +40,17 @@ export default function ProjectCard({ project, index }) {
         transform: `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`,
         transformStyle: "preserve-3d",
       }}
-      className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-xl overflow-hidden shadow-lg hover:shadow-2xl hover:shadow-indigo-500/20 transition-all duration-300 border border-gray-200/50 dark:border-gray-700/50"
+      className={`${index === 1 ? 'bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-xl overflow-hidden shadow-lg hover:shadow-2xl hover:shadow-indigo-500/20 transition-all duration-300 border border-gray-200/50 dark:border-gray-700/50 h-auto' : 'bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-xl overflow-hidden shadow-lg hover:shadow-2xl hover:shadow-indigo-500/20 transition-all duration-300 border border-gray-200/50 dark:border-gray-700/50'}`}
     >
-      <div className="relative h-48 bg-gray-200 dark:bg-gray-700">
+      <div className="relative h-64 bg-gray-200 dark:bg-gray-700">
         {project.image ? (
           <Image
             src={project.image}
             alt={project.title}
             fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             className="object-cover"
+            priority={index === 0}
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center text-4xl">
