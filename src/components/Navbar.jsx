@@ -2,13 +2,11 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { HiMenu, HiX, HiSun, HiMoon } from "react-icons/hi";
+import { HiMenu, HiX } from "react-icons/hi";
 import { navLinks } from "@/lib/data";
-import { useTheme } from "./ThemeProvider";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const { theme, toggleTheme } = useTheme();
 
   return (
     <motion.nav
@@ -33,19 +31,6 @@ export default function Navbar() {
                 {link.name}
               </a>
             ))}
-            
-            {/* Theme Toggle */}
-            <button
-              onClick={toggleTheme}
-              className="p-2 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
-              aria-label="Toggle theme"
-            >
-              {theme === "dark" ? (
-                <HiSun className="w-5 h-5 text-yellow-500" />
-              ) : (
-                <HiMoon className="w-5 h-5 text-gray-700" />
-              )}
-            </button>
           </div>
 
           {/* Mobile Menu Button */}

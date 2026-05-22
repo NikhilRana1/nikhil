@@ -15,11 +15,16 @@ export const skills = [
   { name: "React", level: 90 },
   { name: "Next.js", level: 85 },
   { name: "JavaScript", level: 90 },
-  { name: "TypeScript", level: 75 },
-  { name: "Node.js", level: 80 },
+  { name: "HTML", level: 95 },
+  { name: "CSS", level: 90 },
   { name: "Tailwind CSS", level: 85 },
+  { name: "Bootstrap", level: 80 },
   { name: "MongoDB", level: 70 },
-  { name: "Git", level: 80 },
+  { name: "MySQL", level: 75 },
+  { name: "WordPress", level: 80 },
+  { name: "GitHub", level: 85 },
+  { name: "Linux", level: 75 },
+  { name: "GitLab", level: 80 },
 ];
 
 export const projects = [
