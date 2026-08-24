@@ -12,12 +12,12 @@ import {
 
 export default function About() {
   return (
-    <section id="about" className="py-20 bg-gray-50 dark:bg-gray-900 overflow-hidden">
+    <section id="about" className="py-24 bg-sunken overflow-hidden">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Title */}
         <ScrollReveal direction="up" className="mb-12">
-          <SlideReveal direction="left" bgColor="bg-indigo-500">
-            <h2 className="text-3xl sm:text-4xl font-bold text-center">
+          <SlideReveal direction="left" bgColor="bg-accent">
+            <h2 className="font-display text-3xl sm:text-4xl font-bold text-center text-ink">
               About Me
             </h2>
           </SlideReveal>
@@ -32,18 +32,18 @@ export default function About() {
           >
             <TextReveal
               text={`Hello! I'm ${personalInfo.name}, a passionate Frontend Developer focused on building modern, responsive, and user-friendly web experiences. I enjoy turning ideas into real-world digital products using technologies like HTML, CSS, JavaScript, React, and Next.js.`}
-              className="text-gray-600 dark:text-gray-400 leading-relaxed"
+              className="text-muted leading-relaxed"
               staggerDelay={0.03}
             />
             <TextReveal
               text="I love creating clean UI designs, smooth user experiences, and performant applications that not only look good but also solve real problems. As a developer, I'm constantly learning new technologies and improving my skills to stay updated with the latest trends in web development."
-              className="text-gray-600 dark:text-gray-400 leading-relaxed"
+              className="text-muted leading-relaxed"
               delay={0.3}
               staggerDelay={0.03}
             />
             <TextReveal
               text="Currently, I'm working on personal and client projects, exploring full-stack development, and sharpening my problem-solving abilities. My goal is to build impactful digital experiences that combine creativity with functionality. When I'm not coding, you'll usually find me exploring new tech, experimenting with AI tools, or enjoying a good cup of coffee."
-              className="text-gray-600 dark:text-gray-400 leading-relaxed"
+              className="text-muted leading-relaxed"
               delay={0.6}
               staggerDelay={0.03}
             />
@@ -59,9 +59,9 @@ export default function About() {
                   className="relative w-64 h-64"
                 >
                   {/* Animated background rings */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full animate-pulse opacity-20 scale-110" />
-                  <div className="absolute inset-0 bg-gradient-to-br from-indigo-500 to-pink-600 rounded-full animate-pulse opacity-20 scale-105" style={{ animationDelay: '0.5s' }} />
-                  <div className="w-full h-full bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center relative z-10">
+                  <div className="absolute inset-0 bg-accent rounded-full animate-pulse opacity-15 scale-110" />
+                  <div className="absolute inset-0 bg-graphite rounded-full animate-pulse opacity-10 scale-105" style={{ animationDelay: '0.5s' }} />
+                  <div className="w-full h-full bg-surface border border-line rounded-full flex items-center justify-center relative z-10 shadow-xl shadow-graphite/10">
                     <motion.span
                       className="text-6xl"
                       animate={{ y: [0, -10, 0] }}

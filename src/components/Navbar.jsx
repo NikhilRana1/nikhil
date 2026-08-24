@@ -12,12 +12,12 @@ export default function Navbar() {
     <motion.nav
       initial={{ y: -100 }}
       animate={{ y: 0 }}
-      className="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-black/80 backdrop-blur-md"
+      className="fixed top-0 left-0 right-0 z-50 border-b border-line bg-surface/85 backdrop-blur-md"
     >
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          <a href="#home" className="text-xl font-bold">
-            Portfolio
+          <a href="#home" className="font-display text-lg font-bold tracking-tight text-ink">
+            Nikhil Rana
           </a>
 
           {/* Desktop Menu */}
@@ -26,7 +26,7 @@ export default function Navbar() {
               <a
                 key={link.name}
                 href={link.href}
-                className="text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white transition-colors"
+                className="text-sm font-medium text-muted transition-colors hover:text-accent"
               >
                 {link.name}
               </a>
@@ -35,7 +35,7 @@ export default function Navbar() {
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden"
+            className="md:hidden text-ink"
             onClick={() => setIsOpen(!isOpen)}
           >
             {isOpen ? <HiX size={24} /> : <HiMenu size={24} />}
@@ -53,7 +53,7 @@ export default function Navbar() {
               <a
                 key={link.name}
                 href={link.href}
-                className="block py-2 text-gray-700 dark:text-gray-300"
+                className="block py-2 text-sm font-medium text-muted transition-colors hover:text-accent"
                 onClick={() => setIsOpen(false)}
               >
                 {link.name}

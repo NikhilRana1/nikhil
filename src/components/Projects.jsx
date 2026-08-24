@@ -39,20 +39,20 @@ export default function Projects() {
   };
 
   return (
-    <section id="projects" className="py-20 overflow-hidden">
+    <section id="projects" className="py-24 overflow-hidden bg-ground">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Title */}
         <ScrollReveal direction="up" className="mb-4">
-          <SlideReveal direction="left" bgColor="bg-pink-500">
-            <h2 className="text-3xl sm:text-4xl font-bold text-center">
+          <SlideReveal direction="left" bgColor="bg-accent">
+            <h2 className="font-display text-3xl sm:text-4xl font-bold text-center text-ink">
               My Projects
             </h2>
           </SlideReveal>
         </ScrollReveal>
 
         <BlurReveal delay={0.2} className="mb-12">
-          <p className="text-gray-600 dark:text-gray-400 text-center max-w-2xl mx-auto">
-            Here are some of the projects I've worked on. Each project is a unique piece of development.
+          <p className="text-muted text-center max-w-2xl mx-auto">
+            Here are some of the projects I&apos;ve worked on. Each project is a unique piece of development.
           </p>
         </BlurReveal>
 

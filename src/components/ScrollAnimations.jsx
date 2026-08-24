@@ -434,7 +434,7 @@ export function SlideReveal({
   once = true,
   threshold = 0.3,
   className = '',
-  bgColor = 'bg-indigo-500',
+  bgColor = 'bg-accent',
 }) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once, amount: threshold });
@@ -541,7 +541,7 @@ export function ScrollProgress({ className = '' }) {
   return (
     <motion.div
       style={{ scaleX, transformOrigin: '0%' }}
-      className={`fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 z-50 ${className}`}
+      className={`fixed top-0 left-0 right-0 h-1 bg-accent z-50 ${className}`}
     />
   );
 }

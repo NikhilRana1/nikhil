@@ -1,7 +1,42 @@
 @import "tailwindcss";
 @import "lenis/dist/lenis.css";
 
-html.lenis, html.lenis body {
+/* ============================================
+   Cool Paper — the single source of truth for the palette.
+   Change these nine values and the whole site follows.
+   ============================================ */
+:root {
+  --ground: #f1f3f6; /* page background */
+  --surface: #ffffff; /* cards, tiles, navbar */
+  --sunken: #e9edf2; /* alternating sections, inputs */
+  --line: #d8dee6; /* borders, dividers */
+  --ink: #12161c; /* primary text */
+  --muted: #5c6773; /* secondary text */
+  --accent: #0f6e63; /* deep teal — the one accent */
+  --accent-strong: #0b564d; /* hover/pressed */
+  --accent-tint: #e2efec; /* teal wash for chips, badges */
+  --graphite: #3a4550; /* secondary UI, icons at rest */
+}
+
+@theme inline {
+  --color-ground: var(--ground);
+  --color-surface: var(--surface);
+  --color-sunken: var(--sunken);
+  --color-line: var(--line);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
+  --color-accent-tint: var(--accent-tint);
+  --color-graphite: var(--graphite);
+
+  --font-sans: var(--font-jakarta);
+  --font-display: var(--font-sora);
+  --font-mono: var(--font-jetbrains);
+}
+
+html.lenis,
+html.lenis body {
   height: auto;
 }
 
@@ -17,41 +52,30 @@ html.lenis, html.lenis body {
   overflow: hidden;
 }
 
-/* Hide default cursor on desktop */
+/* Hide default cursor on desktop, where CustomCursor takes over */
 @media (hover: hover) {
   * {
     cursor: none !important;
   }
 }
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
 }
 
-/* Custom Animations */
+::selection {
+  background: var(--accent);
+  color: var(--surface);
+}
+
+/* ============================================
+   Custom Animations
+   ============================================ */
 @keyframes blob {
-  0%, 100% {
+  0%,
+  100% {
     transform: translate(0, 0) scale(1);
   }
   25% {
@@ -131,4 +155,50 @@ body {
 
 .animation-delay-4000 {
   animation-delay: 4s;
+}
+
+/* ============================================
+   Skills bento grid (GSAP)
+   ============================================ */
+
+/* GSAP owns each tile's transform (tilt) and opacity, so the stylesheet only
+   styles what GSAP never writes: border, shadow, colour, background. */
+.skill-tile {
+  transform-style: preserve-3d;
+  transition: border-color 0.35s ease, box-shadow 0.35s ease,
+    background-color 0.35s ease;
+}
+
+.skill-tile:hover {
+  border-color: color-mix(in srgb, var(--brand) 55%, transparent);
+  box-shadow: 0 18px 50px -20px color-mix(in srgb, var(--brand) 45%, transparent);
+}
+
+/* Spotlight tracks the cursor via --mx / --my, set on mousemove */
+.skill-tile__spot {
+  background: radial-gradient(
+    18rem circle at var(--mx, 50%) var(--my, 50%),
+    color-mix(in srgb, var(--brand) 14%, transparent),
+    transparent 60%
+  );
+}
+
+/* Icons carry their real brand colour at rest — no muted state to hover out of.
+   Transform here is safe: GSAP only ever writes to the tile, never this child. */
+.skill-tile__icon {
+  color: var(--brand);
+  transition: transform 0.35s ease, filter 0.35s ease;
+}
+
+.skill-tile:hover .skill-tile__icon {
+  transform: scale(1.14);
+  filter: drop-shadow(0 6px 16px color-mix(in srgb, var(--brand) 45%, transparent));
+}
+
+.skill-tile h3 {
+  transition: color 0.35s ease;
+}
+
+.skill-tile:hover h3 {
+  color: var(--accent);
 }

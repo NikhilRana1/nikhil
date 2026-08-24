@@ -7,10 +7,10 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="py-8 bg-gray-50 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800">
+    <footer className="py-8 bg-ground border-t border-line">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-gray-600 dark:text-gray-400 text-sm flex items-center gap-1">
+          <p className="text-muted text-sm flex items-center gap-1">
             © {currentYear} {personalInfo.name}. {" "}
             
           </p>
@@ -20,7 +20,7 @@ export default function Footer() {
               href={personalInfo.socialLinks.github}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors"
+              className="text-graphite hover:text-accent transition-colors"
             >
               <FaGithub size={20} />
             </a>
@@ -28,7 +28,7 @@ export default function Footer() {
               href={personalInfo.socialLinks.linkedin}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors"
+              className="text-graphite hover:text-accent transition-colors"
             >
               <FaLinkedin size={20} />
             </a>
@@ -36,7 +36,7 @@ export default function Footer() {
               href={personalInfo.socialLinks.twitter}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors"
+              className="text-graphite hover:text-accent transition-colors"
             >
               <FaTwitter size={20} />
             </a> */}

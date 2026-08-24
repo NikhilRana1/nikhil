@@ -37,13 +37,13 @@ export default async function ProjectPage({ params }) {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <Link
           href="/#projects"
-          className="inline-flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white mb-8"
+          className="inline-flex items-center gap-2 text-muted transition-colors hover:text-accent mb-8"
         >
           <FaArrowLeft />
           Back to Projects
         </Link>
 
-        <div className="relative h-64 sm:h-96 bg-gray-200 dark:bg-gray-800 rounded-xl overflow-hidden mb-8">
+        <div className="relative h-64 sm:h-96 bg-sunken border border-line rounded-xl overflow-hidden mb-8">
           {project.image ? (
             <Image
               src={project.image}
@@ -58,13 +58,13 @@ export default async function ProjectPage({ params }) {
           )}
         </div>
 
-        <h1 className="text-3xl sm:text-4xl font-bold mb-4">{project.title}</h1>
+        <h1 className="font-display text-3xl sm:text-4xl font-bold mb-4 text-ink">{project.title}</h1>
 
         <div className="flex flex-wrap gap-2 mb-6">
           {project.technologies.map((tech) => (
             <span
               key={tech}
-              className="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 text-sm rounded-full"
+              className="px-3 py-1 bg-accent-tint text-accent text-xs font-medium rounded-full"
             >
               {tech}
             </span>
@@ -77,7 +77,7 @@ export default async function ProjectPage({ params }) {
               href={project.githubUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-4 py-2 bg-gray-900 dark:bg-gray-100 text-white dark:text-black rounded-lg hover:opacity-80 transition-opacity"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-ink text-surface rounded-lg hover:opacity-85 transition-opacity"
             >
               <FaGithub />
               View Code
@@ -88,7 +88,7 @@ export default async function ProjectPage({ params }) {
               href={project.liveUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-accent text-surface rounded-lg hover:bg-accent-strong transition-colors"
             >
               <FaExternalLinkAlt />
               Live Demo
@@ -96,9 +96,9 @@ export default async function ProjectPage({ params }) {
           )}
         </div>
 
-        <div className="prose dark:prose-invert max-w-none">
-          <h2>About This Project</h2>
-          <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
+        <div className="max-w-none">
+          <h2 className="font-display text-xl font-bold mb-3 text-ink">About This Project</h2>
+          <p className="text-muted leading-relaxed">
             {project.longDescription}
           </p>
         </div>

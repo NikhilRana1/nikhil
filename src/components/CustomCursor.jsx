@@ -16,8 +16,8 @@ export default function CustomCursor() {
     const handleMouseLeave = () => setIsVisible(false);
     const handleMouseEnter = () => setIsVisible(true);
 
-    const handlePointerChange = () => {
-      const hoveredElement = document.elementFromPoint(position.x, position.y);
+    const handlePointerChange = (e) => {
+      const hoveredElement = document.elementFromPoint(e.clientX, e.clientY);
       if (hoveredElement) {
         const computedStyle = window.getComputedStyle(hoveredElement);
         setIsPointer(
@@ -39,7 +39,7 @@ export default function CustomCursor() {
       window.removeEventListener("mouseenter", handleMouseEnter);
       window.removeEventListener("mouseover", handlePointerChange);
     };
-  }, [position.x, position.y]);
+  }, []);
 
   // Hide on touch devices
   if (typeof window !== "undefined" && "ontouchstart" in window) {
@@ -50,7 +50,7 @@ export default function CustomCursor() {
     <>
       {/* Main cursor */}
       <div
-        className={`fixed pointer-events-none z-[9999] transition-transform duration-100 ease-out mix-blend-difference ${
+        className={`fixed pointer-events-none z-[9999] transition-transform duration-100 ease-out ${
           isVisible ? "opacity-100" : "opacity-0"
         }`}
         style={{
@@ -60,7 +60,7 @@ export default function CustomCursor() {
         }}
       >
         <div
-          className={`w-4 h-4 bg-white rounded-full transition-all duration-200 ${
+          className={`w-4 h-4 bg-ink rounded-full transition-all duration-200 ${
             isPointer ? "scale-150" : ""
           }`}
         />
@@ -68,7 +68,7 @@ export default function CustomCursor() {
 
       {/* Cursor trail */}
       <div
-        className={`fixed pointer-events-none z-[9998] transition-all duration-300 ease-out mix-blend-difference ${
+        className={`fixed pointer-events-none z-[9998] transition-all duration-300 ease-out ${
           isVisible ? "opacity-50" : "opacity-0"
         }`}
         style={{
@@ -78,7 +78,7 @@ export default function CustomCursor() {
         }}
       >
         <div
-          className={`w-8 h-8 border border-white rounded-full transition-all duration-300 ${
+          className={`w-8 h-8 border border-ink rounded-full transition-all duration-300 ${
             isPointer ? "scale-150 border-2" : ""
           }`}
         />

@@ -40,9 +40,9 @@ export default function ProjectCard({ project, index }) {
         transform: `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`,
         transformStyle: "preserve-3d",
       }}
-      className={`${index === 1 ? 'bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-xl overflow-hidden shadow-lg hover:shadow-2xl hover:shadow-indigo-500/20 transition-all duration-300 border border-gray-200/50 dark:border-gray-700/50 h-auto' : 'bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-xl overflow-hidden shadow-lg hover:shadow-2xl hover:shadow-indigo-500/20 transition-all duration-300 border border-gray-200/50 dark:border-gray-700/50'}`}
+      className="bg-surface rounded-xl overflow-hidden border border-line shadow-sm transition-all duration-300 hover:border-accent/40 hover:shadow-xl hover:shadow-graphite/10"
     >
-      <div className="relative h-64 bg-gray-200 dark:bg-gray-700">
+      <div className="relative h-64 bg-sunken">
         {project.image ? (
           <Image
             src={project.image}
@@ -60,8 +60,8 @@ export default function ProjectCard({ project, index }) {
       </div>
 
       <div className="p-6">
-        <h3 className="text-xl font-bold mb-2">{project.title}</h3>
-        <p className="text-gray-600 dark:text-gray-400 mb-4">
+        <h3 className="font-display text-xl font-bold mb-2 text-ink">{project.title}</h3>
+        <p className="text-muted mb-4 text-sm leading-relaxed">
           {project.description}
         </p>
 
@@ -69,7 +69,7 @@ export default function ProjectCard({ project, index }) {
           {project.technologies.map((tech) => (
             <span
               key={tech}
-              className="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 text-sm rounded-full"
+              className="px-3 py-1 bg-accent-tint text-accent text-xs font-medium rounded-full"
             >
               {tech}
             </span>
@@ -79,7 +79,7 @@ export default function ProjectCard({ project, index }) {
         <div className="flex justify-between items-center">
           <Link
             href={`/projects/${project.slug}`}
-            className="text-blue-600 dark:text-blue-400 hover:underline"
+            className="text-sm font-semibold text-accent hover:underline"
           >
             View Details →
           </Link>
@@ -90,7 +90,7 @@ export default function ProjectCard({ project, index }) {
                 href={project.githubUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white"
+                className="text-graphite transition-colors hover:text-accent"
               >
                 <FaGithub size={20} />
               </a>
@@ -100,7 +100,7 @@ export default function ProjectCard({ project, index }) {
                 href={project.liveUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white"
+                className="text-graphite transition-colors hover:text-accent"
               >
                 <FaExternalLinkAlt size={18} />
               </a>

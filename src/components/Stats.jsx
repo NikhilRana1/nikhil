@@ -44,7 +44,7 @@ function StatCard({ stat, index }) {
 
       {/* Counter with glow effect */}
       <div className="relative">
-        <div className="text-4xl sm:text-5xl font-bold text-white mb-2 relative z-10">
+        <div className="font-display text-4xl sm:text-5xl font-bold text-surface mb-2 relative z-10 tabular-nums">
           <CountUp
             end={stat.value}
             suffix={stat.suffix}
@@ -57,7 +57,7 @@ function StatCard({ stat, index }) {
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 0.3 } : {}}
           transition={{ delay: index * 0.15 + 0.5 }}
-          className="absolute inset-0 bg-white/20 blur-xl rounded-full"
+          className="absolute inset-0 bg-accent/40 blur-xl rounded-full"
         />
       </div>
 
@@ -66,7 +66,7 @@ function StatCard({ stat, index }) {
         initial={{ opacity: 0, y: 10 }}
         animate={isInView ? { opacity: 1, y: 0 } : {}}
         transition={{ delay: index * 0.15 + 0.4 }}
-        className="text-white/80 text-sm sm:text-base"
+        className="text-surface/70 text-sm sm:text-base"
       >
         {stat.label}
       </motion.p>
@@ -76,7 +76,7 @@ function StatCard({ stat, index }) {
         initial={{ scaleX: 0 }}
         animate={isInView ? { scaleX: 1 } : {}}
         transition={{ delay: index * 0.15 + 0.5, duration: 0.5 }}
-        className="h-0.5 bg-white/30 mt-4 mx-auto max-w-[60%] origin-left"
+        className="h-0.5 bg-accent mt-4 mx-auto max-w-[60%] origin-left"
       />
     </motion.div>
   );
@@ -84,7 +84,7 @@ function StatCard({ stat, index }) {
 
 export default function Stats() {
   return (
-    <section className="py-16 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 overflow-hidden relative">
+    <section className="py-16 bg-ink overflow-hidden relative">
       {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden">
         <motion.div
@@ -97,7 +97,7 @@ export default function Stats() {
             repeat: Infinity,
             ease: "linear",
           }}
-          className="absolute -top-20 -left-20 w-40 h-40 bg-white/5 rounded-full blur-3xl"
+          className="absolute -top-20 -left-20 w-40 h-40 bg-accent/20 rounded-full blur-3xl"
         />
         <motion.div
           animate={{
@@ -109,7 +109,7 @@ export default function Stats() {
             repeat: Infinity,
             ease: "linear",
           }}
-          className="absolute -bottom-20 -right-20 w-60 h-60 bg-white/5 rounded-full blur-3xl"
+          className="absolute -bottom-20 -right-20 w-60 h-60 bg-accent/15 rounded-full blur-3xl"
         />
       </div>
 
