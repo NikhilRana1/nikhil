@@ -1,7 +1,13 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "framer-motion";
-import { personalInfo } from "@/lib/data";
+import {
+  personalInfo,
+  experiences,
+  education,
+  skillCategories,
+} from "@/lib/data";
 import {
   ScrollReveal,
   TextReveal,
@@ -11,6 +17,18 @@ import {
 } from "./ScrollAnimations";
 
 export default function About() {
+  const [role] = experiences;
+  const [degree] = education;
+  const techCount = skillCategories.reduce((n, c) => n + c.skills.length, 0);
+
+  const facts = [
+    { label: "Role", value: personalInfo.title },
+    { label: "Currently", value: role.company, meta: role.duration },
+    { label: "Based in", value: personalInfo.location },
+    { label: "Education", value: degree.qualification, meta: degree.institution },
+    { label: "Toolkit", value: `${techCount} technologies`, meta: skillCategories.map((c) => c.label).join(" · ") },
+  ];
+
   return (
     <section id="about" className="py-24 bg-sunken overflow-hidden">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -49,27 +67,45 @@ export default function About() {
             />
           </StaggerChildren>
 
-          {/* Avatar with Parallax */}
+          {/* Profile card — every value comes from data.js, so it stays true
+              to the resume rather than drifting into decoration. */}
           <ScrollReveal direction="right" delay={0.3}>
             <div className="flex justify-center">
-              <ParallaxWrapper speed={-0.2}>
+              <ParallaxWrapper speed={-0.15}>
                 <motion.div
-                  whileHover={{ scale: 1.05, rotate: 5 }}
-                  transition={{ type: "spring", stiffness: 300 }}
-                  className="relative w-64 h-64"
+                  whileHover={{ y: -6 }}
+                  transition={{ type: "spring", stiffness: 260, damping: 20 }}
+                  className="relative w-full max-w-sm rounded-2xl border border-line bg-surface p-7 shadow-xl shadow-graphite/10"
                 >
-                  {/* Animated background rings */}
-                  <div className="absolute inset-0 bg-accent rounded-full animate-pulse opacity-15 scale-110" />
-                  <div className="absolute inset-0 bg-graphite rounded-full animate-pulse opacity-10 scale-105" style={{ animationDelay: '0.5s' }} />
-                  <div className="w-full h-full bg-surface border border-line rounded-full flex items-center justify-center relative z-10 shadow-xl shadow-graphite/10">
-                    <motion.span
-                      className="text-6xl"
-                      animate={{ y: [0, -10, 0] }}
-                      transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-                    >
-                      👨‍💻
-                    </motion.span>
-                  </div>
+                  {/* Accent rail marks this as the identity card */}
+                  <span className="absolute left-0 top-7 bottom-7 w-[3px] rounded-full bg-accent" />
+
+                  <Image
+                    src="/images/logo.png"
+                    alt={personalInfo.name}
+                    width={505}
+                    height={257}
+                    className="mb-6 h-20 w-auto"
+                  />
+
+                  <span className="mb-6 inline-flex items-center gap-2 rounded-full bg-accent-tint px-3 py-1 text-xs font-medium text-accent">
+                    <span className="h-1.5 w-1.5 rounded-full bg-accent" />
+                    Available for opportunities
+                  </span>
+
+                  <dl className="flex flex-col gap-4">
+                    {facts.map((fact) => (
+                      <div key={fact.label} className="flex flex-col gap-0.5">
+                        <dt className="font-mono text-[0.7rem] uppercase tracking-wider text-muted">
+                          {fact.label}
+                        </dt>
+                        <dd className="text-sm font-semibold text-ink">{fact.value}</dd>
+                        {fact.meta && (
+                          <dd className="text-xs text-muted">{fact.meta}</dd>
+                        )}
+                      </div>
+                    ))}
+                  </dl>
                 </motion.div>
               </ParallaxWrapper>
             </div>

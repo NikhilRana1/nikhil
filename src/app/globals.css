@@ -158,47 +158,70 @@ body {
 }
 
 /* ============================================
-   Skills bento grid (GSAP)
+   Skills — category cards (GSAP)
    ============================================ */
 
-/* GSAP owns each tile's transform (tilt) and opacity, so the stylesheet only
-   styles what GSAP never writes: border, shadow, colour, background. */
-.skill-tile {
-  transform-style: preserve-3d;
-  transition: border-color 0.35s ease, box-shadow 0.35s ease,
-    background-color 0.35s ease;
+/* GSAP owns each card's transform and opacity during the reveal, so the
+   stylesheet only styles what GSAP never writes: border, shadow, colour. */
+.skill-card {
+  transition: border-color 0.3s ease, box-shadow 0.3s ease,
+    background-color 0.3s ease;
 }
 
-.skill-tile:hover {
+.skill-card:hover {
   border-color: color-mix(in srgb, var(--brand) 55%, transparent);
-  box-shadow: 0 18px 50px -20px color-mix(in srgb, var(--brand) 45%, transparent);
+  box-shadow: 0 12px 30px -14px color-mix(in srgb, var(--brand) 50%, transparent);
 }
 
-/* Spotlight tracks the cursor via --mx / --my, set on mousemove */
-.skill-tile__spot {
-  background: radial-gradient(
-    18rem circle at var(--mx, 50%) var(--my, 50%),
-    color-mix(in srgb, var(--brand) 14%, transparent),
-    transparent 60%
-  );
-}
-
-/* Icons carry their real brand colour at rest — no muted state to hover out of.
-   Transform here is safe: GSAP only ever writes to the tile, never this child. */
-.skill-tile__icon {
+/* Icons carry their real brand colour at rest. Transform here is safe: GSAP
+   only ever writes to the card, never this child. */
+.skill-card__icon {
   color: var(--brand);
-  transition: transform 0.35s ease, filter 0.35s ease;
+  transition: transform 0.3s ease, filter 0.3s ease;
 }
 
-.skill-tile:hover .skill-tile__icon {
-  transform: scale(1.14);
-  filter: drop-shadow(0 6px 16px color-mix(in srgb, var(--brand) 45%, transparent));
+.skill-card:hover .skill-card__icon {
+  transform: scale(1.15) rotate(-4deg);
+  filter: drop-shadow(0 4px 12px color-mix(in srgb, var(--brand) 50%, transparent));
 }
 
-.skill-tile h3 {
-  transition: color 0.35s ease;
+.skill-card span {
+  transition: color 0.3s ease;
 }
 
-.skill-tile:hover h3 {
+.skill-card:hover span {
   color: var(--accent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skill-card:hover .skill-card__icon {
+    transform: none;
+  }
+}
+
+/* ============================================
+   Projects — sticky stack (GSAP)
+   ============================================ */
+
+/* Every item sticks inside the same parent, so once a card reaches its offset
+   it stays there and the following cards pile on top (later DOM paints above).
+   The margin below each item is the scroll distance between cards.
+   GSAP owns the card's transform (scale) — nothing here writes to it. */
+.stack-card {
+  transform-origin: top center;
+}
+
+@media (min-width: 768px) {
+  .deck-item {
+    position: sticky;
+    top: var(--stack-top, 7rem);
+  }
+
+  .deck-item:not(:last-child) {
+    margin-bottom: 4rem;
+  }
+
+  .stack-card {
+    will-change: transform, filter;
+  }
 }

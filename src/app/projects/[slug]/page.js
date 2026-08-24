@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { FaGithub, FaExternalLinkAlt, FaArrowLeft } from "react-icons/fa";
+import { FaExternalLinkAlt, FaArrowLeft } from "react-icons/fa";
 import { projects } from "@/lib/data";
 
 export async function generateStaticParams() {
@@ -72,17 +72,6 @@ export default async function ProjectPage({ params }) {
         </div>
 
         <div className="flex gap-4 mb-8">
-          {project.githubUrl && (
-            <a
-              href={project.githubUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-4 py-2 bg-ink text-surface rounded-lg hover:opacity-85 transition-opacity"
-            >
-              <FaGithub />
-              View Code
-            </a>
-          )}
           {project.liveUrl && (
             <a
               href={project.liveUrl}

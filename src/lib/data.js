@@ -2,7 +2,9 @@ export const personalInfo = {
   name: "Nikhil Rana",
   title: "Full Stack Developer",
   email: "nikhilrana7885@gmail.com",
-  location: "Your City, Country",
+  phone: "+91-6230397675",
+  location: "New Delhi, India",
+  resumeUrl: "/Nikhil_Rana_Resume.pdf",
   bio: "A passionate developer crafting beautiful and functional web experiences.",
   socialLinks: {
     github: "https://github.com/NikhilRana1",
@@ -11,20 +13,70 @@ export const personalInfo = {
   },
 };
 
-export const skills = [
-  { name: "React", level: 90 },
-  { name: "Next.js", level: 85 },
-  { name: "JavaScript", level: 90 },
-  { name: "HTML", level: 95 },
-  { name: "CSS", level: 90 },
-  { name: "Tailwind CSS", level: 85 },
-  { name: "Bootstrap", level: 80 },
-  { name: "MongoDB", level: 70 },
-  { name: "MySQL", level: 75 },
-  { name: "WordPress", level: 80 },
-  { name: "GitHub", level: 85 },
-  { name: "Linux", level: 75 },
-  { name: "GitLab", level: 80 },
+/**
+ * Skills grouped the way the resume groups them, ordered front-of-stack to
+ * infrastructure. `icon` is resolved to a component in Skills.jsx so this file
+ * stays free of JSX imports.
+ */
+export const skillCategories = [
+  {
+    id: "frontend",
+    label: "Frontend",
+    blurb: "Interfaces, state and styling",
+    skills: [
+      { name: "React.js", icon: "react", color: "#149ECA" },
+      { name: "Next.js", icon: "nextjs", color: "#12161C" },
+      { name: "JavaScript", icon: "javascript", color: "#F7DF1E" },
+      { name: "HTML", icon: "html", color: "#E34F26" },
+      { name: "CSS", icon: "css", color: "#663399" },
+      { name: "Tailwind CSS", icon: "tailwind", color: "#0EA5E9" },
+      { name: "Bootstrap", icon: "bootstrap", color: "#7952B3" },
+    ],
+  },
+  {
+    id: "backend",
+    label: "Backend & Database",
+    blurb: "APIs and data",
+    skills: [
+      { name: "Node.js", icon: "node", color: "#5FA04E" },
+      { name: "MongoDB", icon: "mongodb", color: "#47A248" },
+      { name: "MySQL", icon: "mysql", color: "#4479A1" },
+    ],
+  },
+  {
+    id: "devops",
+    label: "DevOps & Tools",
+    blurb: "Shipping, versioning and servers",
+    skills: [
+      { name: "Docker", icon: "docker", color: "#2496ED" },
+      { name: "CI/CD", icon: "cicd", color: "#3A4550" },
+      { name: "Git", icon: "git", color: "#F05032" },
+      { name: "GitHub", icon: "github", color: "#181717" },
+      { name: "GitLab", icon: "gitlab", color: "#FC6D26" },
+      { name: "Linux", icon: "linux", color: "#1A1A1A" },
+      { name: "Networking", icon: "networking", color: "#3A4550" },
+      { name: "VPS", icon: "vps", color: "#3A4550" },
+      { name: "CloudPanel", icon: "cloudpanel", color: "#0F6E63" },
+      { name: "Hostinger", icon: "hostinger", color: "#673DE6" },
+    ],
+  },
+  {
+    id: "cms",
+    label: "CMS",
+    blurb: "Content-managed sites",
+    skills: [{ name: "WordPress", icon: "wordpress", color: "#21759B" }],
+  },
+];
+
+/**
+ * The numbers shown in the stats band. Kept here with the rest of the content
+ * so a figure is changed in one place, not inside a component.
+ */
+export const stats = [
+  { value: 1, suffix: "+", label: "Years Experience" },
+  { value: 12, suffix: "+", label: "Projects Completed" },
+  { value: 30, suffix: "+", label: "Happy Clients" },
+  { value: 99, suffix: "%", label: "Client Satisfaction" },
 ];
 
 export const projects = [
@@ -65,10 +117,31 @@ export const projects = [
 
 export const experiences = [
   {
-    title: "Software Developer",
-    company: "Company Name",
-    duration: "2023 - Present",
-    description: "Description of your role and responsibilities.",
+    title: "Full Stack Developer",
+    company: "IDM Valley",
+    duration: "December 2025 - Present",
+    highlights: [
+      "Developed and maintained responsive web applications using React.js, Next.js, and Tailwind CSS.",
+      "Built and integrated RESTful APIs with Node.js and MongoDB for various client projects.",
+      "Containerized applications using Docker and set up CI/CD pipelines for automated builds and deployments.",
+      "Collaborated with the team using Git, GitHub, and GitLab for version control and code reviews.",
+      "Deployed and managed applications on VPS servers using CloudPanel and Hostinger.",
+    ],
+  },
+];
+
+export const education = [
+  {
+    qualification: "B.C.A. (Computer Applications)",
+    institution: "Sardar Patel University (SPU)",
+  },
+  {
+    qualification: "Class XII — Himachal Pradesh Board",
+    institution: "2022 · 62%",
+  },
+  {
+    qualification: "Class X — Himachal Pradesh Board",
+    institution: "2020 · 70%",
   },
 ];
 

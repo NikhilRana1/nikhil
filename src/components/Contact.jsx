@@ -2,7 +2,8 @@
 
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import { FaEnvelope, FaMapMarkerAlt } from "react-icons/fa";
+import { FaEnvelope, FaMapMarkerAlt, FaPhone } from "react-icons/fa";
+import { FiDownload } from "react-icons/fi";
 import { personalInfo } from "@/lib/data";
 import {
   ScrollReveal,
@@ -104,12 +105,34 @@ export default function Contact() {
               </MagneticButton>
             </ContactInfoItem>
 
-            <ContactInfoItem icon={FaMapMarkerAlt} title="Location" index={1}>
+            <ContactInfoItem icon={FaPhone} title="Phone" index={1}>
+              <MagneticButton
+                as="a"
+                href={`tel:${personalInfo.phone.replace(/[^+\d]/g, "")}`}
+                strength={0.3}
+                className="text-muted hover:text-accent transition-colors inline-block"
+              >
+                {personalInfo.phone}
+              </MagneticButton>
+            </ContactInfoItem>
+
+            <ContactInfoItem icon={FaMapMarkerAlt} title="Location" index={2}>
               <p className="text-muted">{personalInfo.location}</p>
             </ContactInfoItem>
 
+            <ScrollReveal direction="left" delay={0.3}>
+              <a
+                href={personalInfo.resumeUrl}
+                download
+                className="inline-flex items-center gap-2 rounded-lg bg-ink px-5 py-3 text-sm font-semibold text-surface transition-opacity hover:opacity-85"
+              >
+                <FiDownload size={16} />
+                Download Resume
+              </a>
+            </ScrollReveal>
+
             {/* Decorative element */}
-            <ScrollReveal direction="left" delay={0.4}>
+            <ScrollReveal direction="left" delay={0.5}>
               <div className="mt-8 p-6 bg-surface rounded-xl border-l-4 border-accent border-y border-r border-y-line border-r-line">
                 <p className="text-sm text-muted italic">
                   &ldquo;The best way to predict the future is to create it.&rdquo;

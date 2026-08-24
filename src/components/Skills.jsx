@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
   SiReact,
   SiNextdotjs,
@@ -10,87 +11,60 @@ import {
   SiCss,
   SiTailwindcss,
   SiBootstrap,
+  SiNodedotjs,
   SiMongodb,
   SiMysql,
-  SiWordpress,
+  SiDocker,
+  SiGit,
   SiGithub,
-  SiLinux,
   SiGitlab,
+  SiLinux,
+  SiWordpress,
+  SiGithubactions,
+  SiHostinger,
 } from "react-icons/si";
-import { skills } from "@/lib/data";
+import { TbNetwork, TbServer2, TbCloudCog } from "react-icons/tb";
+import { skillCategories } from "@/lib/data";
 
-// Icon, brand colour and bento footprint per skill name from data.js.
-const SKILL_META = {
-  React: { Icon: SiReact, color: "#149ECA", span: "feature" }, // React's on-light cyan
-  "Next.js": { Icon: SiNextdotjs, color: "#12161C", span: "wide" }, // wordmark is black on light
-  JavaScript: { Icon: SiJavascript, color: "#F7DF1E", span: "wide" },
-  "Tailwind CSS": { Icon: SiTailwindcss, color: "#0EA5E9", span: "wide" },
-  HTML: { Icon: SiHtml5, color: "#E34F26", span: "unit" },
-  CSS: { Icon: SiCss, color: "#663399", span: "unit" },
-  MongoDB: { Icon: SiMongodb, color: "#47A248", span: "unit" },
-  MySQL: { Icon: SiMysql, color: "#4479A1", span: "unit" },
-  WordPress: { Icon: SiWordpress, color: "#21759B", span: "unit" },
-  Bootstrap: { Icon: SiBootstrap, color: "#7952B3", span: "unit" },
-  GitHub: { Icon: SiGithub, color: "#181717", span: "unit" }, // GitHub's brand black
-  Linux: { Icon: SiLinux, color: "#1A1A1A", span: "unit" }, // Tux is mostly black
-  GitLab: { Icon: SiGitlab, color: "#FC6D26", span: "wide" },
+// data.js stores icon keys as strings so it stays free of component imports.
+const ICONS = {
+  react: SiReact,
+  nextjs: SiNextdotjs,
+  javascript: SiJavascript,
+  html: SiHtml5,
+  css: SiCss,
+  tailwind: SiTailwindcss,
+  bootstrap: SiBootstrap,
+  node: SiNodedotjs,
+  mongodb: SiMongodb,
+  mysql: SiMysql,
+  docker: SiDocker,
+  cicd: SiGithubactions,
+  git: SiGit,
+  github: SiGithub,
+  gitlab: SiGitlab,
+  linux: SiLinux,
+  networking: TbNetwork,
+  vps: TbServer2,
+  cloudpanel: TbCloudCog,
+  hostinger: SiHostinger,
+  wordpress: SiWordpress,
 };
 
-const SPAN_CLASSES = {
-  feature: "col-span-2 row-span-2",
-  wide: "col-span-2",
-  unit: "col-span-1",
-};
-
-// Grid order is authored rather than taken from data.js so the bento tiles
-// interlock instead of leaving holes.
-const LAYOUT = [
-  "React",
-  "Next.js",
-  "JavaScript",
-  "Tailwind CSS",
-  "HTML",
-  "CSS",
-  "MongoDB",
-  "MySQL",
-  "WordPress",
-  "Bootstrap",
-  "GitHub",
-  "Linux",
-  "GitLab",
-];
-
-function SkillTile({ skill, featured }) {
-  const meta = SKILL_META[skill.name];
-  const Icon = meta?.Icon;
+function SkillCard({ skill }) {
+  const Icon = ICONS[skill.icon];
 
   return (
-    <article
-      data-tile
-      className={`skill-tile group relative flex flex-col items-center justify-center gap-4 overflow-hidden rounded-2xl border border-line bg-surface p-6 text-center ${
-        SPAN_CLASSES[meta?.span ?? "unit"]
-      } ${featured ? "min-h-[15rem]" : "min-h-[9rem]"}`}
-      style={{ ["--brand"]: meta?.color ?? "#818cf8" }}
+    <li
+      data-skill
+      className="skill-card group relative flex min-h-[8.5rem] min-w-0 flex-col items-center justify-center gap-4 rounded-xl border border-line bg-surface px-3 py-6"
+      style={{ ["--brand"]: skill.color }}
     >
-      {/* Cursor-following spotlight, positioned from --mx / --my */}
-      <span className="skill-tile__spot pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-
-      {Icon && (
-        <Icon
-          className={`skill-tile__icon relative shrink-0 ${
-            featured ? "text-8xl" : "text-5xl"
-          }`}
-        />
-      )}
-
-      <h3
-        className={`relative font-semibold text-ink ${
-          featured ? "font-display text-2xl" : "text-base"
-        }`}
-      >
+      {Icon && <Icon className="skill-card__icon shrink-0 text-5xl" />}
+      <span className="text-center text-sm font-medium leading-tight text-ink">
         {skill.name}
-      </h3>
-    </article>
+      </span>
+    </li>
   );
 }
 
@@ -99,27 +73,25 @@ export default function Skills() {
   const headingRef = useRef(null);
   const underlineRef = useRef(null);
   const subtitleRef = useRef(null);
-  const gridRef = useRef(null);
+  const spineRef = useRef(null);
+  const groupsRef = useRef([]);
 
-  const ordered = LAYOUT.map((name) =>
-    skills.find((s) => s.name === name)
-  ).filter(Boolean);
+  const totalSkills = skillCategories.reduce((n, c) => n + c.skills.length, 0);
 
   useEffect(() => {
     const reduceMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
     ).matches;
+    gsap.registerPlugin(ScrollTrigger);
 
     const ctx = gsap.context(() => {
       const chars = headingRef.current.querySelectorAll("[data-char]");
-      const tiles = Array.from(gridRef.current.querySelectorAll("[data-tile]"));
+      const groups = groupsRef.current.filter(Boolean);
 
-      // Explicit hidden state paired with explicit targets below, so no element
-      // can be stranded mid-tween and left invisible.
+      // --- Header: explicit set + to, so nothing can strand mid-tween ---
       gsap.set(chars, { yPercent: 120, rotateX: -80, opacity: 0 });
       gsap.set(underlineRef.current, { scaleX: 0 });
       gsap.set(subtitleRef.current, { y: 20, opacity: 0, filter: "blur(8px)" });
-      gsap.set(tiles, { y: 48, opacity: 0, scale: 0.94, transformPerspective: 900 });
 
       const intro = gsap.timeline({ paused: true });
       intro
@@ -146,90 +118,101 @@ export default function Skills() {
             ease: "power2.out",
           },
           "-=0.5"
-        )
-        .to(
-          tiles,
-          {
-            y: 0,
-            opacity: 1,
-            scale: 1,
-            duration: 0.7,
-            ease: "power3.out",
-            stagger: 0.055,
-          },
-          "-=0.35"
         );
+
+      // --- Each category reveals as its own unit ---
+      const groupTimelines = groups.map((group) => {
+        const node = group.querySelector("[data-node]");
+        const label = group.querySelector("[data-label]");
+        const meta = group.querySelector("[data-meta]");
+        const cards = group.querySelectorAll("[data-skill]");
+
+        gsap.set(node, { scale: 0, opacity: 0 });
+        gsap.set(label, { xPercent: -8, opacity: 0 });
+        gsap.set(meta, { opacity: 0 });
+        gsap.set(cards, { y: 24, opacity: 0, scale: 0.96 });
+
+        const tl = gsap.timeline({ paused: true });
+        tl.to(node, { scale: 1, opacity: 1, duration: 0.45, ease: "back.out(2.2)" })
+          .to(
+            label,
+            { xPercent: 0, opacity: 1, duration: 0.55, ease: "power3.out" },
+            "-=0.25"
+          )
+          .to(meta, { opacity: 1, duration: 0.4 }, "-=0.35")
+          .to(
+            cards,
+            {
+              y: 0,
+              opacity: 1,
+              scale: 1,
+              duration: 0.5,
+              stagger: 0.045,
+              ease: "power2.out",
+            },
+            "-=0.3"
+          );
+        return tl;
+      });
 
       if (reduceMotion) {
         intro.progress(1);
+        groupTimelines.forEach((tl) => tl.progress(1));
+        gsap.set(spineRef.current, { scaleY: 1 });
         return;
       }
 
-      // IntersectionObserver rather than ScrollTrigger: it reports synchronously
-      // when the section is already on screen (e.g. a deep link to #skills),
-      // with no dependence on refresh ordering.
-      const observer = new IntersectionObserver(
-        ([entry]) => {
-          if (entry.isIntersecting) {
-            intro.play();
-            observer.disconnect();
-          }
-        },
-        { threshold: 0.15 }
-      );
-      observer.observe(sectionRef.current);
+      // IntersectionObserver rather than ScrollTrigger for the reveals: it
+      // reports synchronously when a target is already on screen (deep link to
+      // #skills), with no dependence on refresh ordering.
+      const observers = [];
+      const watch = (target, tl) => {
+        const io = new IntersectionObserver(
+          ([entry]) => {
+            if (entry.isIntersecting) {
+              tl.play();
+              io.disconnect();
+            }
+          },
+          { threshold: 0.2 }
+        );
+        io.observe(target);
+        observers.push(io);
+      };
 
-      // Safety net: an unrevealed grid is never an acceptable resting state.
+      watch(sectionRef.current, intro);
+      groups.forEach((group, i) => watch(group, groupTimelines[i]));
+
+      // Safety net: an unrevealed section is never an acceptable resting state.
       const failsafe = window.setTimeout(() => {
-        if (!intro.progress() && !intro.isActive()) {
-          intro.progress(1);
-          observer.disconnect();
-        }
-      }, 3000);
-
-      // --- 3D tilt + spotlight ---
-      // quickTo keeps this off React's render path, and GSAP stays the sole
-      // owner of each tile's transform so nothing fights over it.
-      const tiltCleanups = tiles.map((tile) => {
-        const rotX = gsap.quickTo(tile, "rotationX", {
-          duration: 0.5,
-          ease: "power3",
+        [intro, ...groupTimelines].forEach((tl) => {
+          if (!tl.progress() && !tl.isActive()) tl.progress(1);
         });
-        const rotY = gsap.quickTo(tile, "rotationY", {
-          duration: 0.5,
-          ease: "power3",
-        });
-        const lift = gsap.quickTo(tile, "y", { duration: 0.5, ease: "power3" });
+        observers.forEach((io) => io.disconnect());
+      }, 3500);
 
-        const move = (event) => {
-          const rect = tile.getBoundingClientRect();
-          const px = (event.clientX - rect.left) / rect.width;
-          const py = (event.clientY - rect.top) / rect.height;
-          rotY((px - 0.5) * 14);
-          rotX((0.5 - py) * 14);
-          lift(-6);
-          tile.style.setProperty("--mx", `${px * 100}%`);
-          tile.style.setProperty("--my", `${py * 100}%`);
-        };
-
-        const leave = () => {
-          rotX(0);
-          rotY(0);
-          lift(0);
-        };
-
-        tile.addEventListener("mousemove", move);
-        tile.addEventListener("mouseleave", leave);
-        return () => {
-          tile.removeEventListener("mousemove", move);
-          tile.removeEventListener("mouseleave", leave);
-        };
+      // --- The spine draws in step with scroll through the section ---
+      // Scrubbed rather than played: the line is a scroll position readout, so
+      // it should track the scrollbar exactly.
+      gsap.set(spineRef.current, { scaleY: 0, transformOrigin: "top center" });
+      const spine = gsap.to(spineRef.current, {
+        scaleY: 1,
+        ease: "none",
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top 65%",
+          end: "bottom 85%",
+          // Unsmoothed: the line is a readout of scroll position, so it should
+          // track the scrollbar exactly rather than easing behind it.
+          scrub: true,
+        },
       });
 
       return () => {
         window.clearTimeout(failsafe);
-        observer.disconnect();
-        tiltCleanups.forEach((fn) => fn());
+        observers.forEach((io) => io.disconnect());
+        spine.scrollTrigger?.kill();
+        spine.kill();
       };
     }, sectionRef);
 
@@ -242,11 +225,10 @@ export default function Skills() {
       ref={sectionRef}
       className="relative overflow-hidden bg-ground py-24"
     >
-      {/* Ambient glow */}
       <div className="pointer-events-none absolute left-1/2 top-0 h-64 w-[42rem] -translate-x-1/2 rounded-full bg-accent/[0.07] blur-[100px]" />
 
       <div className="relative mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-        {/* Heading */}
+        {/* Header */}
         <div className="mb-4 text-center">
           <h2
             ref={headingRef}
@@ -267,24 +249,61 @@ export default function Skills() {
 
         <p
           ref={subtitleRef}
-          className="mx-auto mb-14 max-w-2xl text-center text-muted"
+          className="mx-auto mb-16 max-w-2xl text-center text-muted"
         >
-          Technologies and tools I work with.
+          {totalSkills} technologies, grouped by where they sit in the stack —
+          from the interface down to the servers it runs on.
         </p>
 
-        {/* Bento grid. Capped at four columns: the authored spans tile without
-            gaps at 2 and at 4, whereas six leaves the last row part empty. */}
-        <div
-          ref={gridRef}
-          className="grid grid-cols-2 gap-4 sm:grid-cols-4"
-        >
-          {ordered.map((skill) => (
-            <SkillTile
-              key={skill.name}
-              skill={skill}
-              featured={SKILL_META[skill.name]?.span === "feature"}
-            />
-          ))}
+        {/* Categories, threaded onto a single spine */}
+        <div className="relative">
+          {/* Spine track + the drawn line on top of it */}
+          <div
+            aria-hidden="true"
+            className="absolute left-[7px] top-2 bottom-2 hidden w-px bg-line sm:block"
+          />
+          <div
+            ref={spineRef}
+            aria-hidden="true"
+            className="absolute left-[7px] top-2 bottom-2 hidden w-px bg-accent sm:block"
+          />
+
+          <div className="flex flex-col gap-14">
+            {skillCategories.map((category, index) => (
+              <div
+                key={category.id}
+                ref={(el) => {
+                  groupsRef.current[index] = el;
+                }}
+                className="relative sm:pl-12"
+              >
+                {/* Spine node */}
+                <span
+                  data-node
+                  aria-hidden="true"
+                  className="absolute left-0 top-1.5 hidden h-[15px] w-[15px] rounded-full border-2 border-accent bg-ground sm:block"
+                />
+
+                <div className="mb-5 flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                  <h3
+                    data-label
+                    className="font-display text-xl font-bold text-ink"
+                  >
+                    {category.label}
+                  </h3>
+                  <p data-meta className="font-mono text-xs text-muted">
+                    {category.blurb} · {category.skills.length}
+                  </p>
+                </div>
+
+                <ul className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-5">
+                  {category.skills.map((skill) => (
+                    <SkillCard key={skill.name} skill={skill} />
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>

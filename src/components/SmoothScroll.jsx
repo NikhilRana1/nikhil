@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import Lenis from "lenis";
+import { registerLenis } from "@/lib/lenis";
 
 export default function SmoothScroll({ children }) {
   const lenisRef = useRef(null);
@@ -17,6 +18,7 @@ export default function SmoothScroll({ children }) {
     });
 
     lenisRef.current = lenis;
+    registerLenis(lenis);
 
     function raf(time) {
       lenis.raf(time);
@@ -39,6 +41,7 @@ export default function SmoothScroll({ children }) {
     });
 
     return () => {
+      registerLenis(null);
       lenis.destroy();
     };
   }, []);

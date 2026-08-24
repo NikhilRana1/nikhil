@@ -1,113 +1,85 @@
 "use client";
 
-import { motion } from "framer-motion";
 import Image from "next/image";
-import Link from "next/link";
-import { FaGithub, FaExternalLinkAlt } from "react-icons/fa";
-import { useState } from "react";
+import { FiArrowUpRight } from "react-icons/fi";
 
-export default function ProjectCard({ project, index }) {
-  const [rotateX, setRotateX] = useState(0);
-  const [rotateY, setRotateY] = useState(0);
-
-  const handleMouseMove = (e) => {
-    const card = e.currentTarget;
-    const rect = card.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
-    const rotateXValue = (y - centerY) / 10;
-    const rotateYValue = (centerX - x) / 10;
-    setRotateX(rotateXValue);
-    setRotateY(rotateYValue);
-  };
-
-  const handleMouseLeave = () => {
-    setRotateX(0);
-    setRotateY(0);
-  };
-
+/**
+ * A card in the sticky stack. Deliberately has no transform of its own:
+ * the stacking effect in Projects.jsx scales and dims these cards on scroll,
+ * and a second writer on `transform` (the old mouse tilt) would fight it.
+ */
+export default function ProjectCard({ project, index, total, onOpen }) {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 50 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
-      viewport={{ once: true }}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      style={{
-        transform: `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`,
-        transformStyle: "preserve-3d",
-      }}
-      className="bg-surface rounded-xl overflow-hidden border border-line shadow-sm transition-all duration-300 hover:border-accent/40 hover:shadow-xl hover:shadow-graphite/10"
+    <article
+      data-card
+      className="stack-card grid overflow-hidden rounded-2xl border border-line bg-surface shadow-xl shadow-graphite/10 md:min-h-[24rem] md:grid-cols-2"
     >
-      <div className="relative h-64 bg-sunken">
+      <div className="relative aspect-[16/11] w-full overflow-hidden bg-sunken md:aspect-auto md:h-full">
         {project.image ? (
           <Image
             src={project.image}
             alt={project.title}
             fill
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            className="object-cover"
+            sizes="(max-width: 768px) 100vw, 50vw"
+            className="object-cover object-top"
             priority={index === 0}
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center text-4xl">
+          <div className="flex h-full w-full items-center justify-center text-4xl">
             🚀
           </div>
         )}
       </div>
 
-      <div className="p-6">
-        <h3 className="font-display text-xl font-bold mb-2 text-ink">{project.title}</h3>
-        <p className="text-muted mb-4 text-sm leading-relaxed">
-          {project.description}
+      <div className="flex flex-col justify-center gap-4 p-6 sm:p-8">
+        <p className="font-mono text-xs tracking-wider text-accent">
+          {String(index + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
         </p>
 
-        <div className="flex flex-wrap gap-2 mb-4">
+        <h3 className="font-display text-2xl font-bold tracking-tight text-ink sm:text-3xl">
+          {project.title}
+        </h3>
+
+        <p className="text-sm leading-relaxed text-muted">{project.description}</p>
+
+        <div className="flex flex-wrap gap-2">
           {project.technologies.map((tech) => (
             <span
               key={tech}
-              className="px-3 py-1 bg-accent-tint text-accent text-xs font-medium rounded-full"
+              className="rounded-full border border-accent/20 bg-accent-tint px-3 py-1 text-xs font-medium text-accent"
             >
               {tech}
             </span>
           ))}
         </div>
 
-        <div className="flex justify-between items-center">
-          <Link
-            href={`/projects/${project.slug}`}
-            className="text-sm font-semibold text-accent hover:underline"
+        <div className="mt-1 flex flex-wrap items-center gap-4">
+          <button
+            type="button"
+            onClick={() => onOpen(project)}
+            aria-label={`View details for ${project.title}`}
+            className="inline-flex items-center gap-2 rounded-lg bg-accent px-4 py-2.5 text-sm font-semibold text-surface transition-colors hover:bg-accent-strong"
           >
-            View Details →
-          </Link>
+            View Details
+            <span aria-hidden="true">→</span>
+          </button>
 
-          <div className="flex gap-3">
-            {project.githubUrl && (
-              <a
-                href={project.githubUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-graphite transition-colors hover:text-accent"
-              >
-                <FaGithub size={20} />
-              </a>
-            )}
-            {project.liveUrl && (
-              <a
-                href={project.liveUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-graphite transition-colors hover:text-accent"
-              >
-                <FaExternalLinkAlt size={18} />
-              </a>
-            )}
-          </div>
+          {project.liveUrl && (
+            <a
+              href={project.liveUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group inline-flex items-center gap-1.5 text-sm font-medium text-muted transition-colors hover:text-accent"
+            >
+              Live site
+              <FiArrowUpRight
+                size={15}
+                className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+              />
+            </a>
+          )}
         </div>
       </div>
-    </motion.div>
+    </article>
   );
 }

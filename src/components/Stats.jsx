@@ -3,13 +3,7 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { CountUp, ScaleOnScroll } from "./ScrollAnimations";
-
-const stats = [
-  { value: 1, suffix: "+", label: "Years Experience", icon: "📅" },
-  { value: 12, suffix: "+", label: "Projects Completed", icon: "🚀" },
-  { value: 30, suffix: "+", label: "Happy Clients", icon: "😄" },
-  { value: 99, suffix: "%", label: "Client Satisfaction", icon: "⭐" },
-];
+import { stats } from "@/lib/data";
 
 function StatCard({ stat, index }) {
   const ref = useRef(null);
@@ -28,20 +22,6 @@ function StatCard({ stat, index }) {
       whileHover={{ scale: 1.05, y: -5 }}
       className="text-center group"
     >
-      {/* Icon with bounce animation */}
-      <motion.div
-        initial={{ scale: 0 }}
-        animate={isInView ? { scale: 1 } : {}}
-        transition={{
-          type: "spring",
-          stiffness: 200,
-          delay: index * 0.15 + 0.3,
-        }}
-        className="text-3xl mb-2 group-hover:animate-bounce"
-      >
-        {stat.icon}
-      </motion.div>
-
       {/* Counter with glow effect */}
       <div className="relative">
         <div className="font-display text-4xl sm:text-5xl font-bold text-surface mb-2 relative z-10 tabular-nums">
