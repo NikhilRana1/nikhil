@@ -1,7 +1,5 @@
 "use client";
 
-import Image from "next/image";
-import { motion } from "framer-motion";
 import {
   personalInfo,
   experiences,
@@ -15,18 +13,55 @@ import {
   SlideReveal,
   StaggerChildren,
 } from "./ScrollAnimations";
+import CodeCard from "./CodeCard";
 
 export default function About() {
   const [role] = experiences;
   const [degree] = education;
   const techCount = skillCategories.reduce((n, c) => n + c.skills.length, 0);
 
-  const facts = [
-    { label: "Role", value: personalInfo.title },
-    { label: "Currently", value: role.company, meta: role.duration },
-    { label: "Based in", value: personalInfo.location },
-    { label: "Education", value: degree.qualification, meta: degree.institution },
-    { label: "Toolkit", value: `${techCount} technologies`, meta: skillCategories.map((c) => c.label).join(" · ") },
+  /* The card renders as a source file, so the facts are described as token
+     trees — one entry per line — instead of label/value pairs. */
+  const codeLines = [
+    {
+      indent: 0,
+      tokens: [
+        { t: "kw", v: "const" },
+        { t: "key", v: " nikhil" },
+        { t: "punc", v: " = {" },
+      ],
+    },
+    ...[
+      { key: "role", value: personalInfo.title },
+      { key: "currently", value: role.company, comment: role.duration },
+      { key: "based", value: personalInfo.location },
+      { key: "education", value: degree.qualification, comment: degree.institution },
+    ].flatMap((fact) => [
+      // Comments sit on their own line so no line grows wider than the card.
+      ...(fact.comment
+        ? [{ indent: 1, tokens: [{ t: "comment", v: `// ${fact.comment}` }] }]
+        : []),
+      {
+        indent: 1,
+        tokens: [
+          { t: "key", v: fact.key },
+          { t: "punc", v: ": " },
+          { t: "str", v: `"${fact.value}"` },
+          { t: "punc", v: "," },
+        ],
+      },
+    ]),
+    {
+      indent: 1,
+      tokens: [
+        { t: "key", v: "toolkit" },
+        { t: "punc", v: ": " },
+        { t: "num", v: String(techCount) },
+        { t: "punc", v: "," },
+        { t: "comment", v: " // technologies" },
+      ],
+    },
+    { indent: 0, tokens: [{ t: "punc", v: "};" }] },
   ];
 
   return (
@@ -67,46 +102,17 @@ export default function About() {
             />
           </StaggerChildren>
 
-          {/* Profile card — every value comes from data.js, so it stays true
-              to the resume rather than drifting into decoration. */}
+          {/* Identity card, rendered as a source file — every value still comes from
+              data.js so it stays true to the resume. */}
           <ScrollReveal direction="right" delay={0.3}>
             <div className="flex justify-center">
               <ParallaxWrapper speed={-0.15}>
-                <motion.div
-                  whileHover={{ y: -6 }}
-                  transition={{ type: "spring", stiffness: 260, damping: 20 }}
-                  className="relative w-full max-w-sm rounded-2xl border border-line bg-surface p-7 shadow-xl shadow-graphite/10"
-                >
-                  {/* Accent rail marks this as the identity card */}
-                  <span className="absolute left-0 top-7 bottom-7 w-[3px] rounded-full bg-accent" />
-
-                  <Image
-                    src="/images/logo.png"
-                    alt={personalInfo.name}
-                    width={505}
-                    height={257}
-                    className="mb-6 h-20 w-auto"
-                  />
-
-                  <span className="mb-6 inline-flex items-center gap-2 rounded-full bg-accent-tint px-3 py-1 text-xs font-medium text-accent">
-                    <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-                    Available for opportunities
-                  </span>
-
-                  <dl className="flex flex-col gap-4">
-                    {facts.map((fact) => (
-                      <div key={fact.label} className="flex flex-col gap-0.5">
-                        <dt className="font-mono text-[0.7rem] uppercase tracking-wider text-muted">
-                          {fact.label}
-                        </dt>
-                        <dd className="text-sm font-semibold text-ink">{fact.value}</dd>
-                        {fact.meta && (
-                          <dd className="text-xs text-muted">{fact.meta}</dd>
-                        )}
-                      </div>
-                    ))}
-                  </dl>
-                </motion.div>
+                <CodeCard
+                  fileName="nikhil.config.js"
+                  lines={codeLines}
+                  statusLeft="Available for opportunities"
+                  statusRight={skillCategories.map((c) => c.label).join(" · ")}
+                />
               </ParallaxWrapper>
             </div>
           </ScrollReveal>
