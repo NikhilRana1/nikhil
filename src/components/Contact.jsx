@@ -2,7 +2,8 @@
 
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import { FaEnvelope, FaMapMarkerAlt, FaPhone } from "react-icons/fa";
+import { FaEnvelope, FaMapMarkerAlt } from "react-icons/fa";
+import { FaPhone } from "react-icons/fa6";
 import { FiDownload } from "react-icons/fi";
 import { personalInfo } from "@/lib/data";
 import {

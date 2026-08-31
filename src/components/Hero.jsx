@@ -1,109 +1,13 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
-import { MagneticButton, ParallaxWrapper } from './ScrollAnimations';
-
-// Trail colour needs alpha, and the token is a plain hex.
-function hexToRgba(hex, alpha) {
-  const value = hex.replace('#', '');
-  const full = value.length === 3 ? value.split('').map((c) => c + c).join('') : value;
-  const int = parseInt(full, 16);
-  return `rgba(${(int >> 16) & 255}, ${(int >> 8) & 255}, ${int & 255}, ${alpha})`;
-}
+import MonogramField from './MonogramField';
+import { MagneticButton } from './ScrollAnimations';
 
 export default function Hero() {
-  const canvasRef = useRef(null);
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    const ctx = canvas.getContext('2d');
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-
-    // Read the palette from CSS so the canvas follows the tokens too
-    const styles = getComputedStyle(document.documentElement);
-    const ground = styles.getPropertyValue('--ground').trim() || '#f1f3f6';
-    const accentRgb = '15, 110, 99';
-
-    const particles = [];
-    const particleCount = 40;
-
-    class Particle {
-      constructor() {
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height;
-        this.size = Math.random() * 2 + 0.5;
-        this.speedX = Math.random() * 0.5 - 0.25;
-        this.speedY = Math.random() * 0.5 - 0.25;
-        this.opacity = Math.random() * 0.28 + 0.12;
-      }
-
-      update() {
-        this.x += this.speedX;
-        this.y += this.speedY;
-
-        if (this.x > canvas.width) this.x = 0;
-        if (this.x < 0) this.x = canvas.width;
-        if (this.y > canvas.height) this.y = 0;
-        if (this.y < 0) this.y = canvas.height;
-      }
-
-      draw() {
-        ctx.fillStyle = `rgba(${accentRgb}, ${this.opacity})`;
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fill();
-      }
-    }
-
-    for (let i = 0; i < particleCount; i++) {
-      particles.push(new Particle());
-    }
-
-    // Held so the loop can be cancelled on unmount — without this the rAF
-    // chain outlives the component and doubles up under StrictMode.
-    let frame;
-
-    function animate() {
-      ctx.fillStyle = hexToRgba(ground, 0.08);
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-      particles.forEach((particle) => {
-        particle.update();
-        particle.draw();
-      });
-
-      frame = requestAnimationFrame(animate);
-    }
-
-    animate();
-
-    const handleResize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    };
-
-    window.addEventListener('resize', handleResize);
-    return () => {
-      cancelAnimationFrame(frame);
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
-
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-ground">
-      {/* Animated Canvas Background */}
-      <canvas
-        ref={canvasRef}
-        className="absolute inset-0 w-full h-full"
-      />
-
-      {/* Gradient Orbs */}
-      <div className="absolute top-20 -left-20 w-72 h-72 bg-accent rounded-full mix-blend-multiply filter blur-3xl opacity-[0.13] animate-blob" />
-      <div className="absolute top-40 -right-20 w-72 h-72 bg-graphite rounded-full mix-blend-multiply filter blur-3xl opacity-[0.10] animate-blob animation-delay-2000" />
-      <div className="absolute -bottom-20 left-1/2 w-72 h-72 bg-accent rounded-full mix-blend-multiply filter blur-3xl opacity-[0.10] animate-blob animation-delay-4000" />
+      {/* NR monogram particle field */}
+      <MonogramField />
 
       {/* Content */}
       <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
