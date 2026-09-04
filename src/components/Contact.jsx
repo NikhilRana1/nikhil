@@ -1,17 +1,16 @@
 "use client";
 
 import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { FaEnvelope, FaMapMarkerAlt } from "react-icons/fa";
 import { FaPhone } from "react-icons/fa6";
-import { FiDownload } from "react-icons/fi";
+import { FiDownload, FiCheck } from "react-icons/fi";
 import { personalInfo } from "@/lib/data";
 import {
   ScrollReveal,
   SlideReveal,
   BlurReveal,
   MagneticButton,
-  StaggerChildren,
 } from "./ScrollAnimations";
 
 function ContactInfoItem({ icon: Icon, title, children, index }) {
@@ -40,11 +39,22 @@ function ContactInfoItem({ icon: Icon, title, children, index }) {
   );
 }
 
-function FormInput({ type = "text", placeholder, rows, index }) {
+function FormInput({
+  type = "text",
+  name,
+  placeholder,
+  rows,
+  index,
+  value,
+  onChange,
+  disabled,
+  maxLength,
+}) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.5 });
 
-  const baseClasses = "w-full px-4 py-3 bg-surface text-ink placeholder:text-muted rounded-lg border border-line transition-all duration-300 hover:border-accent/50 focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent";
+  const baseClasses =
+    "w-full px-4 py-3 bg-surface text-ink placeholder:text-muted rounded-lg border border-line transition-all duration-300 hover:border-accent/50 focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent disabled:opacity-60 disabled:cursor-not-allowed";
 
   return (
     <motion.div
@@ -55,14 +65,26 @@ function FormInput({ type = "text", placeholder, rows, index }) {
     >
       {rows ? (
         <textarea
+          name={name}
           rows={rows}
           placeholder={placeholder}
+          value={value}
+          onChange={onChange}
+          disabled={disabled}
+          maxLength={maxLength}
+          required
           className={`${baseClasses} resize-none`}
         />
       ) : (
         <input
           type={type}
+          name={name}
           placeholder={placeholder}
+          value={value}
+          onChange={onChange}
+          disabled={disabled}
+          maxLength={maxLength}
+          required
           className={baseClasses}
         />
       )}
@@ -70,9 +92,49 @@ function FormInput({ type = "text", placeholder, rows, index }) {
   );
 }
 
+const EMPTY_FORM = { name: "", email: "", message: "" };
+
 export default function Contact() {
   const formRef = useRef(null);
   const isFormInView = useInView(formRef, { once: true, amount: 0.3 });
+
+  const [form, setForm] = useState(EMPTY_FORM);
+  const [status, setStatus] = useState("idle"); // idle | sending | sent | error
+  const [error, setError] = useState(null);
+
+  function handleChange(event) {
+    const { name, value } = event.target;
+    setForm((prev) => ({ ...prev, [name]: value }));
+  }
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+    if (status === "sending") return;
+
+    setStatus("sending");
+    setError(null);
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+
+      const body = await response.json().catch(() => null);
+      if (!response.ok) {
+        throw new Error(body?.error || "Something went wrong. Please try again.");
+      }
+
+      setStatus("sent");
+      setForm(EMPTY_FORM);
+    } catch (err) {
+      setStatus("error");
+      setError(err.message || "Something went wrong. Please try again.");
+    }
+  }
+
+  const isSending = status === "sending";
 
   return (
     <section id="contact" className="py-24 overflow-hidden bg-sunken">
@@ -138,7 +200,6 @@ export default function Contact() {
                 <p className="text-sm text-muted italic">
                   &ldquo;The best way to predict the future is to create it.&rdquo;
                 </p>
-                <p className="text-xs text-accent mt-2"></p>
               </div>
             </ScrollReveal>
           </div>
@@ -146,14 +207,54 @@ export default function Contact() {
           {/* Contact Form */}
           <motion.form
             ref={formRef}
+            onSubmit={handleSubmit}
             initial={{ opacity: 0, x: 30 }}
             animate={isFormInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.6 }}
             className="space-y-4"
           >
-            <FormInput placeholder="Your Name" index={0} />
-            <FormInput type="email" placeholder="Your Email" index={1} />
-            <FormInput placeholder="Your Message" rows={4} index={2} />
+            <FormInput
+              name="name"
+              placeholder="Your Name"
+              index={0}
+              value={form.name}
+              onChange={handleChange}
+              disabled={isSending}
+              maxLength={100}
+            />
+            <FormInput
+              type="email"
+              name="email"
+              placeholder="Your Email"
+              index={1}
+              value={form.email}
+              onChange={handleChange}
+              disabled={isSending}
+              maxLength={200}
+            />
+            <FormInput
+              name="message"
+              placeholder="Your Message"
+              rows={4}
+              index={2}
+              value={form.message}
+              onChange={handleChange}
+              disabled={isSending}
+              maxLength={5000}
+            />
+
+            {status === "error" && (
+              <p className="text-sm text-red-600" role="alert">
+                {error}
+              </p>
+            )}
+
+            {status === "sent" && (
+              <p className="flex items-center gap-2 text-sm font-medium text-accent" role="status">
+                <FiCheck size={16} />
+                Message sent — I&apos;ll get back to you soon!
+              </p>
+            )}
 
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -163,13 +264,16 @@ export default function Contact() {
               <MagneticButton
                 type="submit"
                 strength={0.2}
-                className="w-full py-3 bg-accent text-surface rounded-lg hover:bg-accent-strong transition-all duration-300 font-semibold relative overflow-hidden group"
+                disabled={isSending}
+                className="w-full py-3 bg-accent text-surface rounded-lg hover:bg-accent-strong transition-all duration-300 font-semibold relative overflow-hidden group disabled:opacity-60 disabled:cursor-not-allowed"
               >
-                <span className="relative z-10">Send Message</span>
+                <span className="relative z-10">
+                  {isSending ? "Sending..." : "Send Message"}
+                </span>
                 {/* Shine effect */}
                 <motion.div
                   className="absolute inset-0 bg-gradient-to-r from-transparent via-white/25 to-transparent -translate-x-full"
-                  whileHover={{ x: "200%" }}
+                  whileHover={{ x: isSending ? "-100%" : "200%" }}
                   transition={{ duration: 0.6 }}
                 />
               </MagneticButton>

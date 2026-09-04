@@ -2,6 +2,7 @@ import { Sora, Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import SmoothScroll from "@/components/SmoothScroll";
 import CustomCursor from "@/components/CustomCursor";
+import ChatWidget from "@/components/ChatWidget";
 
 const sora = Sora({
   variable: "--font-sora",
@@ -35,6 +36,7 @@ export default function RootLayout({ children }) {
         <SmoothScroll>
           <CustomCursor />
           {children}
+          <ChatWidget />
         </SmoothScroll>
       </body>
     </html>
