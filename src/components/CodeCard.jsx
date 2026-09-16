@@ -55,7 +55,7 @@ export default function CodeCard({ lines, statusLeft, statusRight, fileName }) {
   return (
     <div
       ref={ref}
-      className="w-full max-w-md overflow-hidden rounded-xl border border-line bg-ink shadow-2xl shadow-graphite/25"
+      className="w-full max-w-md overflow-hidden rounded-xl border border-line bg-[#12161c] shadow-2xl shadow-graphite/25"
     >
       {/* Title bar */}
       <div className="flex items-center gap-3 border-b border-white/10 bg-white/[0.04] px-4 py-3">

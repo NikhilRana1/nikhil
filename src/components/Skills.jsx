@@ -51,6 +51,15 @@ const ICONS = {
   wordpress: SiWordpress,
 };
 
+// Relative luminance of a #rrggbb colour, 0 (black) to 1 (white).
+function luminance(hex) {
+  const [r, g, b] = [1, 3, 5].map((i) => {
+    const c = parseInt(hex.slice(i, i + 2), 16) / 255;
+    return c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
+  });
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+}
+
 function SkillCard({ skill }) {
   const Icon = ICONS[skill.icon];
 
@@ -59,6 +68,7 @@ function SkillCard({ skill }) {
       data-skill
       className="skill-card group relative flex min-h-[8.5rem] min-w-0 flex-col items-center justify-center gap-4 rounded-xl border border-line bg-surface px-3 py-6"
       style={{ ["--brand"]: skill.color }}
+      data-mono={luminance(skill.color) < 0.08 || undefined}
     >
       {Icon && <Icon className="skill-card__icon shrink-0 text-5xl" />}
       <span className="text-center text-sm font-medium leading-tight text-ink">

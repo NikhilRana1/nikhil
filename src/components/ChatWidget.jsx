@@ -185,6 +185,7 @@ export default function ChatWidget() {
       <motion.button
         type="button"
         onClick={() => setIsOpen((v) => !v)}
+        data-cmd="chat --start"
         whileHover={{ scale: 1.06 }}
         whileTap={{ scale: 0.94 }}
         aria-label={isOpen ? "Close chat" : "Chat about Nikhil"}
@@ -243,6 +244,7 @@ export default function ChatWidget() {
               <button
                 type="button"
                 onClick={() => setIsOpen(false)}
+                data-cmd="exit"
                 aria-label="Close chat"
                 className="flex h-8 w-8 items-center justify-center rounded-full text-muted transition-colors hover:bg-sunken hover:text-ink sm:hidden"
               >
@@ -281,7 +283,7 @@ export default function ChatWidget() {
 
               {error && (
                 <div className="flex justify-start">
-                  <div className="max-w-[85%] rounded-2xl rounded-bl-sm border border-red-200 bg-red-50 px-4 py-2.5 text-sm text-red-700">
+                  <div className="max-w-[85%] rounded-2xl rounded-bl-sm border border-red-200 bg-red-50 px-4 py-2.5 text-sm text-red-700 dark:border-red-900/60 dark:bg-red-950/40 dark:text-red-300">
                     {error}
                   </div>
                 </div>
@@ -304,6 +306,7 @@ export default function ChatWidget() {
                 <button
                   type="button"
                   onClick={handleSend}
+                  data-cmd="chat --send"
                   disabled={!canSend}
                   aria-label="Send message"
                   className="flex h-8 w-8 flex-none items-center justify-center rounded-lg bg-accent text-surface transition-colors enabled:hover:bg-accent-strong disabled:cursor-not-allowed disabled:opacity-40"

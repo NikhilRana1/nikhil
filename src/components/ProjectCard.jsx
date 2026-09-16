@@ -57,6 +57,7 @@ export default function ProjectCard({ project, index, total, onOpen }) {
           <button
             type="button"
             onClick={() => onOpen(project)}
+            data-cmd={`open ./${project.slug}`}
             aria-label={`View details for ${project.title}`}
             className="inline-flex items-center gap-2 rounded-lg bg-accent px-4 py-2.5 text-sm font-semibold text-surface transition-colors hover:bg-accent-strong"
           >

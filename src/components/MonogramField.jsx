@@ -47,7 +47,9 @@ const FILL_WIDTH = 1.05;
  */
 export default function MonogramField({
   text = "NR",
-  color = "15, 110, 99",
+  // "r, g, b" channels. Left unset, the field follows --accent-rgb, so it
+  // recolours with the theme.
+  color,
   className = "",
 }) {
   const canvasRef = useRef(null);
@@ -66,6 +68,14 @@ export default function MonogramField({
     let points = [];
     let buckets = [];
     let frame = null;
+
+    const readColor = () =>
+      color ||
+      getComputedStyle(document.documentElement)
+        .getPropertyValue("--accent-rgb")
+        .trim() ||
+      "15, 110, 99";
+    let rgb = readColor();
 
     const pointer = { x: -9999, y: -9999, idle: true, last: 0 };
 
@@ -177,7 +187,7 @@ export default function MonogramField({
       for (let b = 0; b < BUCKETS; b += 1) {
         const list = buckets[b];
         if (!list.length) continue;
-        ctx.fillStyle = `rgba(${color}, ${BUCKET_BASE + b * BUCKET_STEP})`;
+        ctx.fillStyle = `rgba(${rgb}, ${BUCKET_BASE + b * BUCKET_STEP})`;
         ctx.beginPath();
         const half = DOT_SIZE / 2;
         for (let i = 0; i < list.length; i += 1) {
@@ -250,6 +260,16 @@ export default function MonogramField({
 
     fit();
 
+    // The theme toggle only flips a class on <html>; pick up the new accent.
+    const themeObserver = new MutationObserver(() => {
+      rgb = readColor();
+      if (reduceMotion) paint();
+    });
+    themeObserver.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["class"],
+    });
+
     // Sora resolves after first paint; sampling before it lands would trace the
     // fallback face instead, so redraw the glyph once the real one is ready.
     let cancelled = false;
@@ -268,6 +288,7 @@ export default function MonogramField({
       paint();
       return () => {
         cancelled = true;
+        themeObserver.disconnect();
       };
     }
 
@@ -285,6 +306,7 @@ export default function MonogramField({
 
     return () => {
       cancelled = true;
+      themeObserver.disconnect();
       stop();
       resizeObserver.disconnect();
       visibility.disconnect();

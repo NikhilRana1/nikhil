@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import { HiMenu, HiX } from "react-icons/hi";
 import { FiDownload } from "react-icons/fi";
 import { navLinks, personalInfo } from "@/lib/data";
+import ThemeToggle from "./ThemeToggle";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -19,7 +20,13 @@ export default function Navbar() {
       animate={{ y: 0 }}
       className="fixed top-0 left-0 right-0 z-50 border-b border-line bg-surface/85 backdrop-blur-md"
     >
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Desktop theme toggle, pinned to the viewport's top-right corner rather
+          than the centred container. */}
+      <ThemeToggle className="absolute right-6 top-1/2 hidden -translate-y-1/2 md:flex" />
+
+      {/* Extra right padding up to xl keeps Resume clear of the pinned toggle
+          while the container still spans the full width. */}
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 md:pr-20 lg:pl-8 lg:pr-20 xl:pr-8">
         <div className="flex items-center justify-between h-20">
           <a href="#home" className="flex items-center" aria-label={`${personalInfo.name} — home`}>
             {logoFailed ? (
@@ -34,22 +41,25 @@ export default function Navbar() {
                 height={257}
                 priority
                 onError={() => setLogoFailed(true)}
-                className="h-12 w-auto sm:h-14"
+                className="h-12 w-auto sm:h-14 dark:invert"
               />
             )}
           </a>
 
           {/* Desktop Menu */}
-          <div className="hidden md:flex items-center gap-8">
-            {navLinks.map((link) => (
-              <a
-                key={link.name}
-                href={link.href}
-                className="text-sm font-medium text-muted transition-colors hover:text-accent"
-              >
-                {link.name}
-              </a>
-            ))}
+          <div className="hidden md:flex items-center">
+            {/* The margin holds the links away from the actions on the right. */}
+            <div className="mr-12 flex items-center gap-8">
+              {navLinks.map((link) => (
+                <a
+                  key={link.name}
+                  href={link.href}
+                  className="text-sm font-medium text-muted transition-colors hover:text-accent"
+                >
+                  {link.name}
+                </a>
+              ))}
+            </div>
 
             <a
               href={personalInfo.resumeUrl}
@@ -61,15 +71,18 @@ export default function Navbar() {
             </a>
           </div>
 
-          {/* Mobile Menu Button */}
-          <button
-            className="md:hidden text-ink"
-            onClick={() => setIsOpen(!isOpen)}
-            aria-label={isOpen ? "Close menu" : "Open menu"}
-            aria-expanded={isOpen}
-          >
-            {isOpen ? <HiX size={24} /> : <HiMenu size={24} />}
-          </button>
+          {/* Mobile: theme toggle + menu button */}
+          <div className="flex items-center gap-3 md:hidden">
+            <ThemeToggle />
+            <button
+              className="text-ink"
+              onClick={() => setIsOpen(!isOpen)}
+              aria-label={isOpen ? "Close menu" : "Open menu"}
+              aria-expanded={isOpen}
+            >
+              {isOpen ? <HiX size={24} /> : <HiMenu size={24} />}
+            </button>
+          </div>
         </div>
 
         {/* Mobile Menu */}

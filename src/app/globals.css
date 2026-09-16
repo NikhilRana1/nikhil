@@ -1,6 +1,10 @@
 @import "tailwindcss";
 @import "lenis/dist/lenis.css";
 
+/* Dark mode is class-driven (set on <html> by the script in layout.js), so the
+   toggle can override the OS preference. */
+@custom-variant dark (&:where(.dark, .dark *));
+
 /* ============================================
    Cool Paper — the single source of truth for the palette.
    Change these nine values and the whole site follows.
@@ -16,6 +20,25 @@
   --accent-strong: #0b564d; /* hover/pressed */
   --accent-tint: #e2efec; /* teal wash for chips, badges */
   --graphite: #3a4550; /* secondary UI, icons at rest */
+  --accent-rgb: 15, 110, 99; /* --accent as channels, for canvas rgba() */
+  color-scheme: light;
+}
+
+/* Night Paper — same roles, inverted. The accent is lifted so it keeps its
+   contrast against the dark ground. */
+.dark {
+  --ground: #0d1117;
+  --surface: #161b22;
+  --sunken: #11161d;
+  --line: #262e38;
+  --ink: #e6ebf1;
+  --muted: #9aa4b0;
+  --accent: #2bb3a3;
+  --accent-strong: #3fcab9;
+  --accent-tint: #10302c;
+  --graphite: #b4bec9;
+  --accent-rgb: 43, 179, 163;
+  color-scheme: dark;
 }
 
 @theme inline {
@@ -56,6 +79,38 @@ html.lenis body {
 @media (hover: hover) {
   * {
     cursor: none !important;
+  }
+}
+
+/* Terminal block caret (CustomCursor). Blinks at rest, holds steady over
+   anything clickable, and narrows to a text bar over form fields. */
+.cursor-caret {
+  width: 9px;
+  height: 18px;
+  border-radius: 1px;
+  background: var(--accent);
+  /* Ground-coloured rim keeps the caret visible over teal buttons. */
+  box-shadow: 0 0 0 1.5px var(--ground);
+  transition: width 0.15s ease, opacity 0.15s ease;
+}
+
+.cursor-caret[data-mode="idle"] {
+  animation: caret-blink 1s steps(1) infinite;
+}
+
+.cursor-caret[data-mode="text"] {
+  width: 2px;
+}
+
+@keyframes caret-blink {
+  50% {
+    visibility: hidden;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cursor-caret[data-mode="idle"] {
+    animation: none;
   }
 }
 
@@ -183,6 +238,13 @@ body {
 .skill-card:hover .skill-card__icon {
   transform: scale(1.15) rotate(-4deg);
   filter: drop-shadow(0 4px 12px color-mix(in srgb, var(--brand) 50%, transparent));
+}
+
+/* Near-black brand marks (Next.js, GitHub, Linux…) vanish on a dark card, so
+   they fall back to the text colour there. !important because --brand is set
+   inline on the card. */
+.dark .skill-card[data-mono] {
+  --brand: var(--ink) !important;
 }
 
 .skill-card span {

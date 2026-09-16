@@ -130,7 +130,7 @@ export default function ProjectModal({ project, onClose }) {
         ref={backRef}
         onClick={requestClose}
         aria-hidden="true"
-        className="absolute inset-0 bg-ink/60 backdrop-blur-md"
+        className="absolute inset-0 bg-[#12161c]/60 backdrop-blur-md"
       />
 
       <div className="absolute inset-0 flex items-start justify-center overflow-y-auto p-4 sm:items-center sm:p-6">
@@ -144,8 +144,9 @@ export default function ProjectModal({ project, onClose }) {
           <button
             ref={closeRef}
             onClick={requestClose}
+            data-cmd="exit"
             aria-label="Close project details"
-            className="group absolute right-4 top-4 z-20 flex h-9 w-9 items-center justify-center rounded-full bg-ink/70 text-white backdrop-blur transition-colors hover:bg-accent"
+            className="group absolute right-4 top-4 z-20 flex h-9 w-9 items-center justify-center rounded-full bg-[#12161c]/70 text-white backdrop-blur transition-colors hover:bg-accent"
           >
             <FiX
               size={17}

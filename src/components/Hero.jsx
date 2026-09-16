@@ -5,7 +5,7 @@ import { MagneticButton } from './ScrollAnimations';
 
 export default function Hero() {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-ground">
+    <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-ground">
       {/* NR monogram particle field */}
       <MonogramField />
 

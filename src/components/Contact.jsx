@@ -244,7 +244,7 @@ export default function Contact() {
             />
 
             {status === "error" && (
-              <p className="text-sm text-red-600" role="alert">
+              <p className="text-sm text-red-600 dark:text-red-400" role="alert">
                 {error}
               </p>
             )}
@@ -263,6 +263,7 @@ export default function Contact() {
             >
               <MagneticButton
                 type="submit"
+                data-cmd="mail --send"
                 strength={0.2}
                 disabled={isSending}
                 className="w-full py-3 bg-accent text-surface rounded-lg hover:bg-accent-strong transition-all duration-300 font-semibold relative overflow-hidden group disabled:opacity-60 disabled:cursor-not-allowed"

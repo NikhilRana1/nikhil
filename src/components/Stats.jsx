@@ -24,7 +24,7 @@ function StatCard({ stat, index }) {
     >
       {/* Counter with glow effect */}
       <div className="relative">
-        <div className="font-display text-4xl sm:text-5xl font-bold text-surface mb-2 relative z-10 tabular-nums">
+        <div className="font-display text-4xl sm:text-5xl font-bold text-surface dark:text-ink mb-2 relative z-10 tabular-nums">
           <CountUp
             end={stat.value}
             suffix={stat.suffix}
@@ -46,7 +46,7 @@ function StatCard({ stat, index }) {
         initial={{ opacity: 0, y: 10 }}
         animate={isInView ? { opacity: 1, y: 0 } : {}}
         transition={{ delay: index * 0.15 + 0.4 }}
-        className="text-surface/70 text-sm sm:text-base"
+        className="text-surface/70 dark:text-muted text-sm sm:text-base"
       >
         {stat.label}
       </motion.p>
@@ -64,7 +64,7 @@ function StatCard({ stat, index }) {
 
 export default function Stats() {
   return (
-    <section className="py-16 bg-ink overflow-hidden relative">
+    <section className="py-16 bg-ink overflow-hidden relative dark:bg-surface dark:border-y dark:border-line">
       {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden">
         <motion.div
