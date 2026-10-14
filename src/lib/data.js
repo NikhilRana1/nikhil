@@ -134,6 +134,16 @@ export const projects = [
     githubUrl: "https://github.com/NikhilRana1",
     featured: true,
   },
+  {
+    slug: "showupreset",
+    title: "ShowUpReset",
+    description: "Animated landing site built with Next.js and GSAP, backed by a PostgreSQL database.",
+    longDescription: "Built the ShowUpReset website with Next.js and PostgreSQL for data, bringing the long-form landing page to life with GSAP scroll animations.",
+    image: "/images/project6.webp",
+    technologies: ["Next.js", "GSAP", "PostgreSQL"],
+    githubUrl: "https://github.com/NikhilRana1",
+    featured: true,
+  },
 ];
 
 export const experiences = [
