@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import ScrollPreview from "./ScrollPreview";
 import { FiArrowUpRight } from "react-icons/fi";
 
 /**
@@ -16,13 +16,10 @@ export default function ProjectCard({ project, index, total, onOpen }) {
     >
       <div className="relative aspect-[16/11] w-full overflow-hidden bg-sunken md:aspect-auto md:h-full">
         {project.image ? (
-          <Image
+          <ScrollPreview
             src={project.image}
             alt={project.title}
-            fill
-            sizes="(max-width: 768px) 100vw, 50vw"
-            className="object-cover object-top"
-            priority={index === 0}
+            className="absolute inset-0"
           />
         ) : (
           <div className="flex h-full w-full items-center justify-center text-4xl">

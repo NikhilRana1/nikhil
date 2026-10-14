@@ -113,6 +113,27 @@ export const projects = [
     githubUrl: "https://github.com/NikhilRana1",
     featured: true,
   },
+  {
+    slug: "the-womens-hospital",
+    title: "The Women's Hospital",
+    description: "Hospital website with a custom admin panel, SEO tooling, and live data from the hospital's CRM.",
+    longDescription: "Built the website for The Women's Hospital, New Delhi, on the latest Next.js with GSAP-driven animations. Created a custom admin panel to manage content and SEO, along with the public-facing pages. Doctor, department and other hospital data is pulled from the hospital's CRM through API integrations, while MongoDB stores site content and MinIO serves the images.",
+    image: "/images/project4.webp",
+    technologies: ["Next.js", "GSAP", "MongoDB", "MinIO"],
+    githubUrl: "https://github.com/NikhilRana1",
+    featured: true,
+  },
+  {
+    slug: "kuttys",
+    title: "Kuttys",
+    description: "Full-stack website with a custom admin panel, built on Next.js, MySQL and MinIO.",
+    longDescription: "Built Kuttys as a full-stack Next.js application backed by MySQL for data and MinIO for image storage. Created a complete admin panel to manage the site's content, along with the public-facing frontend pages.",
+    image: "/images/project5.webp",
+    technologies: ["Next.js", "MySQL", "MinIO"],
+    liveUrl: "https://kuttys.idmvalley.cloud",
+    githubUrl: "https://github.com/NikhilRana1",
+    featured: true,
+  },
 ];
 
 export const experiences = [
