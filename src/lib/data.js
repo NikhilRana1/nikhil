@@ -130,7 +130,7 @@ export const projects = [
     longDescription: "Built Kuttys as a full-stack Next.js application backed by MySQL for data and MinIO for image storage. Created a complete admin panel to manage the site's content, along with the public-facing frontend pages.",
     image: "/images/project5.webp",
     technologies: ["Next.js", "MySQL", "MinIO"],
-    liveUrl: "https://kuttys.idmvalley.cloud",
+    liveUrl: "https://stg.kuttys.co/",
     githubUrl: "https://github.com/NikhilRana1",
     featured: true,
   },
