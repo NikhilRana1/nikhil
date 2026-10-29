@@ -76,12 +76,14 @@ export default function About() {
           </SlideReveal>
         </ScrollReveal>
 
-        <div className="grid md:grid-cols-2 gap-12 items-center">
+        {/* grid-cols-1 is minmax(0,1fr): without it the lone mobile column grows
+            to its widest child (the code card) and pushes the text off-screen. */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           {/* Text Content with Staggered Text Reveals */}
           <StaggerChildren
             staggerDelay={0.2}
             direction="left"
-            className="space-y-6"
+            className="min-w-0 space-y-6"
           >
             <TextReveal
               text={`Hello! I'm ${personalInfo.name}, a passionate Frontend Developer focused on building modern, responsive, and user-friendly web experiences. I enjoy turning ideas into real-world digital products using technologies like HTML, CSS, JavaScript, React, and Next.js.`}
@@ -104,7 +106,7 @@ export default function About() {
 
           {/* Identity card, rendered as a source file — every value still comes from
               data.js so it stays true to the resume. */}
-          <ScrollReveal direction="right" delay={0.3}>
+          <ScrollReveal direction="right" delay={0.3} className="min-w-0">
             <div className="flex justify-center">
               <ParallaxWrapper speed={-0.15}>
                 <CodeCard

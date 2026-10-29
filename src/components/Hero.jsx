@@ -1,13 +1,16 @@
 'use client';
 
-import MonogramField from './MonogramField';
+import HeroBackdrop from './HeroBackdrop';
 import { MagneticButton } from './ScrollAnimations';
 
 export default function Hero() {
   return (
-    <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-ground">
-      {/* NR monogram particle field */}
-      <MonogramField />
+    <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-ground pt-28 pb-28">
+      {/* pt clears the fixed 80px navbar; pb reserves the strip the "Scroll Down"
+          cue sits in, so on short phones the content is pushed apart from both
+          rather than sliding under them. */}
+      {/* NR particle field on tablet/desktop, a light CSS backdrop on phones */}
+      <HeroBackdrop />
 
       {/* Content */}
       <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -26,7 +29,7 @@ export default function Hero() {
 
           {/* Main Heading with Staggered Animation */}
           <div className="space-y-4">
-            <h1 className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight text-balance">
+            <h1 className="font-display text-[clamp(2.25rem,10.5vw,3rem)] sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight text-balance">
               <span className="block text-ink animate-slide-up opacity-0 [animation-delay:200ms] [animation-fill-mode:forwards]">
                 Hi, I&apos;m
               </span>
@@ -38,7 +41,7 @@ export default function Hero() {
 
           {/* Typing Effect Subtitle */}
           <div className="h-16 flex items-center justify-center">
-            <p className="font-mono text-base sm:text-xl md:text-2xl text-graphite animate-slide-up opacity-0 [animation-delay:600ms] [animation-fill-mode:forwards]">
+            <p className="font-mono text-[clamp(0.7rem,3.3vw,1rem)] sm:text-xl md:text-2xl text-graphite animate-slide-up opacity-0 [animation-delay:600ms] [animation-fill-mode:forwards]">
               <span className="inline-block animate-typing overflow-hidden whitespace-nowrap border-r-4 border-accent pr-1">
                 Full Stack Developer & UI/UX Enthusiast
               </span>

@@ -156,7 +156,7 @@ export default function ProjectModal({ project, onClose }) {
 
           <div
             ref={mediaRef}
-            className="relative aspect-[16/11] w-full overflow-hidden bg-sunken md:aspect-auto md:h-full md:min-h-[30rem]"
+            className="relative aspect-[16/9] w-full overflow-hidden bg-sunken sm:aspect-[16/11] md:aspect-auto md:h-full md:min-h-[30rem]"
           >
             {project.image ? (
               <ScrollPreview
@@ -173,12 +173,12 @@ export default function ProjectModal({ project, onClose }) {
 
           <div
             ref={bodyRef}
-            className="flex flex-col justify-center p-7 sm:p-10"
+            className="flex flex-col justify-center p-5 sm:p-10"
           >
             <h3
               data-line
               id="project-modal-title"
-              className="font-display text-3xl font-bold tracking-tight text-ink sm:text-4xl"
+              className="font-display text-2xl font-bold tracking-tight text-ink sm:text-4xl"
             >
               {project.title}
             </h3>

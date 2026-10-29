@@ -66,12 +66,12 @@ function SkillCard({ skill }) {
   return (
     <li
       data-skill
-      className="skill-card group relative flex min-h-[8.5rem] min-w-0 flex-col items-center justify-center gap-4 rounded-xl border border-line bg-surface px-3 py-6"
+      className="skill-card group relative flex min-h-[6.5rem] min-w-0 flex-col items-center justify-center gap-3 rounded-xl border border-line bg-surface px-2 py-4 sm:min-h-[8.5rem] sm:gap-4 sm:px-3 sm:py-6"
       style={{ ["--brand"]: skill.color }}
       data-mono={luminance(skill.color) < 0.08 || undefined}
     >
-      {Icon && <Icon className="skill-card__icon shrink-0 text-5xl" />}
-      <span className="text-center text-sm font-medium leading-tight text-ink">
+      {Icon && <Icon className="skill-card__icon shrink-0 text-4xl sm:text-5xl" />}
+      <span className="text-center text-xs font-medium leading-tight text-ink sm:text-sm">
         {skill.name}
       </span>
     </li>
@@ -306,7 +306,7 @@ export default function Skills() {
                   </p>
                 </div>
 
-                <ul className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-5">
+                <ul className="grid grid-cols-3 gap-2.5 sm:grid-cols-4 sm:gap-3 lg:grid-cols-5">
                   {category.skills.map((skill) => (
                     <SkillCard key={skill.name} skill={skill} />
                   ))}

@@ -68,7 +68,7 @@ export default function CodeCard({ lines, statusLeft, statusRight, fileName }) {
       </div>
 
       {/* Code body */}
-      <div className="overflow-x-auto px-4 py-5 font-mono text-[0.72rem] leading-[1.9] sm:text-[0.8rem]">
+      <div className="px-4 py-5 font-mono text-[0.72rem] leading-[1.9] sm:text-[0.8rem]">
         {lines.map((line, i) => {
           const before = lineLengths.slice(0, i).reduce((a, b) => a + b, 0);
           const visible = Math.max(0, Math.min(typed - before, lineLengths[i]));
@@ -78,7 +78,7 @@ export default function CodeCard({ lines, statusLeft, statusRight, fileName }) {
           let budget = Math.max(0, visible - line.indent * 2);
 
           return (
-            <div key={i} className="flex gap-3 whitespace-pre">
+            <div key={i} className="flex gap-3 whitespace-pre-wrap break-words">
               <span className="w-5 shrink-0 select-none text-right text-[#3f4855]">
                 {i + 1}
               </span>
@@ -112,7 +112,7 @@ export default function CodeCard({ lines, statusLeft, statusRight, fileName }) {
           </span>
           {statusLeft}
         </span>
-        <span className="truncate font-mono text-[0.7rem] text-[#6b7480]">
+        <span className="hidden truncate font-mono text-[0.7rem] text-[#6b7480] sm:block">
           {statusRight}
         </span>
       </div>

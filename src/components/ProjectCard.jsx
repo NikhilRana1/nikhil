@@ -14,7 +14,7 @@ export default function ProjectCard({ project, index, total, onOpen }) {
       data-card
       className="stack-card grid overflow-hidden rounded-2xl border border-line bg-surface shadow-xl shadow-graphite/10 md:min-h-[24rem] md:grid-cols-2"
     >
-      <div className="relative aspect-[16/11] w-full overflow-hidden bg-sunken md:aspect-auto md:h-full">
+      <div className="relative aspect-[16/9] w-full overflow-hidden bg-sunken sm:aspect-[16/11] md:aspect-auto md:h-full">
         {project.image ? (
           <ScrollPreview
             src={project.image}
@@ -28,16 +28,18 @@ export default function ProjectCard({ project, index, total, onOpen }) {
         )}
       </div>
 
-      <div className="flex flex-col justify-center gap-4 p-6 sm:p-8">
+      <div className="flex flex-col justify-center gap-3 p-5 sm:gap-4 sm:p-8">
         <p className="font-mono text-xs tracking-wider text-accent">
           {String(index + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
         </p>
 
-        <h3 className="font-display text-2xl font-bold tracking-tight text-ink sm:text-3xl">
+        <h3 className="font-display text-xl font-bold tracking-tight text-ink sm:text-3xl">
           {project.title}
         </h3>
 
-        <p className="text-sm leading-relaxed text-muted">{project.description}</p>
+        <p className="line-clamp-2 text-sm leading-relaxed text-muted sm:line-clamp-none">
+          {project.description}
+        </p>
 
         <div className="flex flex-wrap gap-2">
           {project.technologies.map((tech) => (

@@ -75,7 +75,7 @@ export default function Navbar() {
           <div className="flex items-center gap-3 md:hidden">
             <ThemeToggle />
             <button
-              className="text-ink"
+              className="-m-2 p-2 text-ink"
               onClick={() => setIsOpen(!isOpen)}
               aria-label={isOpen ? "Close menu" : "Open menu"}
               aria-expanded={isOpen}
